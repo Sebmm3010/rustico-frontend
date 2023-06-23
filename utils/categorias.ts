@@ -10,25 +10,28 @@ import {
 } from '@/public/assets';
 import { StaticImageData } from 'next/image';
 
-interface ICategotias {
-  name:
-    | 'Desayuno'
-    | 'Entrada'
-    | 'Asados'
-    | 'Mariscos'
-    | 'Alitas'
-    | 'Hamburguesa'
-    | 'Familiares'
-    | 'Bebidas';
+export interface ICategotias {
+  name: Categorias;
   icon: StaticImageData;
 }
+
+type Categorias =
+  | 'Desayuno'
+  | 'Entradas'
+  | 'Asados'
+  | 'Mariscos'
+  | 'Alitas'
+  | 'Hamburguesa'
+  | 'Familiares'
+  | 'Bebidas';
+
 export const categorias: ICategotias[] = [
   {
     name: 'Desayuno',
     icon: desayuno
   },
   {
-    name: 'Entrada',
+    name: 'Entradas',
     icon: entradas
   },
   {
