@@ -1,6 +1,7 @@
-import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
+import { UiProvider } from '@/context';
 import { SWRConfig } from 'swr';
+import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -10,7 +11,9 @@ export default function App({ Component, pageProps }: AppProps) {
           fetch(resouce, init).then((res) => res.json())
       }}
     >
-      <Component {...pageProps} />
+      <UiProvider>
+        <Component {...pageProps} />
+      </UiProvider>
     </SWRConfig>
   );
 }
