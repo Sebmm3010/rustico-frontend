@@ -1,7 +1,9 @@
 export const Sidebar = () => {
   return (
     <>
-      <p>Sidebar aqui</p>
+      <div className="flex justify-center text-3xl py-10 text-red-950 font-extrabold  bg-yellow-300">
+        <h2>Mr. Rustico</h2>
+      </div>
     </>
   );
 };
