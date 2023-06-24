@@ -1,3 +1,4 @@
+import { Categoria } from '@/interfaces';
 import {
   alitas,
   asados,
@@ -11,11 +12,12 @@ import {
 import { StaticImageData } from 'next/image';
 
 export interface ICategotias {
-  name: Categorias;
+  name: Titulos;
   icon: StaticImageData;
+  link: Categoria;
 }
 
-type Categorias =
+type Titulos =
   | 'Desayuno'
   | 'Entradas'
   | 'Asados'
@@ -28,34 +30,42 @@ type Categorias =
 export const categorias: ICategotias[] = [
   {
     name: 'Desayuno',
-    icon: desayuno
+    icon: desayuno,
+    link: 'desayuno'
   },
   {
     name: 'Entradas',
-    icon: entradas
+    icon: entradas,
+    link: 'entrada'
   },
   {
     name: 'Asados',
-    icon: asados
+    icon: asados,
+    link: 'asado'
   },
   {
     name: 'Mariscos',
-    icon: mariscos
+    icon: mariscos,
+    link: 'mariscos'
   },
   {
     name: 'Alitas',
-    icon: alitas
+    icon: alitas,
+    link: 'alitas'
   },
   {
     name: 'Hamburguesa',
-    icon: hamburguesa
+    icon: hamburguesa,
+    link: 'hamburguesa'
   },
   {
     name: 'Familiares',
-    icon: familiar
+    icon: familiar,
+    link: 'familiar'
   },
   {
     name: 'Bebidas',
-    icon: bebidas
+    icon: bebidas,
+    link: 'bebida'
   }
 ];
