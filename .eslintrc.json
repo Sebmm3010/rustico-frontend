@@ -43,6 +43,7 @@
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-confusing-void-expression": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "@typescript-eslint/strict-boolean-expressions":"off"
     }
 }

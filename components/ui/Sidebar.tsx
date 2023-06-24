@@ -8,8 +8,8 @@ export const Sidebar = () => {
         <h2>Mr. Rustico</h2>
       </div>
       <nav className="mt-10">
-        {categorias.map(({ name, icon }) => (
-          <Categoria key={name} name={name} icon={icon} />
+        {categorias.map(({ name, icon, link }) => (
+          <Categoria key={name} name={name} icon={icon} link={link} />
         ))}
       </nav>
     </>
