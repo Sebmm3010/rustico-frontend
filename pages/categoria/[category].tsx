@@ -1,19 +1,23 @@
+import { useContext } from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { categorias } from '@/utils';
 import rusticoApi from '@/apis/rusitcoApi';
 import { IProduct } from '@/interfaces';
 import { MainLayout } from '@/components/layouts';
+import { UiContext } from '@/context';
 
 interface Props {
   products: IProduct[];
 }
 
 const Categoria: NextPage<Props> = ({ products }) => {
+  const { actualCategory } = useContext(UiContext);
   return (
     <MainLayout
       title={`Mr. Rustico - ${products[0].categoria}`}
       description="Pagina de categoria de productos"
     >
+      <h1 className="text-4xl font-black">{actualCategory.toUpperCase()}</h1>
       <div>{products[0].titulo}</div>
     </MainLayout>
   );

@@ -28,7 +28,7 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
         <main
           className={`${inter.className} md:w-8/12 xl:w-3/4 2xl:w-4/5 h-3/4`}
         >
-          {children}
+          <div className="p-10">{children}</div>
         </main>
       </div>
     </>
