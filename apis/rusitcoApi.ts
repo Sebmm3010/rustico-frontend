@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const rusticoApi = axios.create({
-  baseURL: process.env.NEXT_BD_URL
+  baseURL: process.env.NEXT_PUBLIC_BD
 });
 
 export default rusticoApi;
