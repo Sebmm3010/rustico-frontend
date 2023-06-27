@@ -3,10 +3,12 @@ import { UiContext, uiReducer } from './';
 
 export interface UiState {
   isAuthMenuOpen: boolean;
+  actualCategory: string;
 }
 
 const Ui_INITIAL_STATE: UiState = {
-  isAuthMenuOpen: false
+  isAuthMenuOpen: false,
+  actualCategory: 'home'
 };
 
 interface Props {
@@ -19,13 +21,16 @@ export const UiProvider: FC<Props> = ({ children }) => {
     dispatch({ type: '[Ui] - toogleAuthMenu' });
   };
 
+  const setActualCategory = (cat: string) => {
+    dispatch({ type: '[Ui] - setActualCategory', payload: cat });
+  };
   return (
     <UiContext.Provider
       value={{
         ...state,
-
         // *Metodos
-        toogleAuthMenu
+        toogleAuthMenu,
+        setActualCategory
       }}
     >
       {children}
