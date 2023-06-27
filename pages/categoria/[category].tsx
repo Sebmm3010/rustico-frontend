@@ -2,13 +2,21 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { categorias } from '@/utils';
 import rusticoApi from '@/apis/rusitcoApi';
 import { IProduct } from '@/interfaces';
+import { MainLayout } from '@/components/layouts';
 
 interface Props {
   products: IProduct[];
 }
 
 const Categoria: NextPage<Props> = ({ products }) => {
-  return <div>{products[0].titulo}</div>;
+  return (
+    <MainLayout
+      title={`Mr. Rustico - ${products[0].categoria}`}
+      description="Pagina de categoria de productos"
+    >
+      <div>{products[0].titulo}</div>
+    </MainLayout>
+  );
 };
 
 // You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes
