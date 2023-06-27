@@ -5,6 +5,7 @@ import rusticoApi from '@/apis/rusitcoApi';
 import { IProduct } from '@/interfaces';
 import { MainLayout } from '@/components/layouts';
 import { UiContext } from '@/context';
+import { ProductsList } from '@/components/products';
 
 interface Props {
   products: IProduct[];
@@ -18,7 +19,7 @@ const Categoria: NextPage<Props> = ({ products }) => {
       description="Pagina de categoria de productos"
     >
       <h1 className="text-4xl font-black">{actualCategory.toUpperCase()}</h1>
-      <div>{products[0].titulo}</div>
+      <ProductsList products={products} />
     </MainLayout>
   );
 };
