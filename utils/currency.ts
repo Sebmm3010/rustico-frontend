@@ -1,0 +1,10 @@
+export const format = (value: number) => {
+  // Formateador
+  const formatter = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  });
+  return formatter.format(value);
+};
