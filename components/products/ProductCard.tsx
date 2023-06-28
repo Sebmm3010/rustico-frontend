@@ -10,9 +10,9 @@ interface Props {
 export const ProductCard: FC<Props> = ({ product }) => {
   const { imagen, titulo, precio } = product;
   return (
-    <div className="border rounded-sm border-black p-3">
+    <div className="border-2 rounded-md border-black p-3 bg-white">
       <Image
-        className="rounded-sm"
+        className="rounded-md border border-black"
         src={imagen}
         alt={titulo}
         width={400}

@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
-import { Sidebar } from '../ui';
+import { Navbar, Sidebar } from '../ui';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,11 +24,17 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
         <aside className="md:w-4/12 xl:w-1/4 2xl:w-1/5 border-r-[1px] border-red-950 bg-yellow-300 h-full">
           <Sidebar />
         </aside>
+
+        {/* Navbar */}
+
         {/* Cuerpo */}
         <main
-          className={`${inter.className} md:w-8/12 xl:w-3/4 2xl:w-4/5 h-screen overflow-y-scroll`}
+          className={`${inter.className} md:w-8/12 xl:w-3/4 2xl:w-4/5 h-screen overflow-y-scroll scrollbar-hide`}
         >
-          <div className="p-10">{children}</div>
+          <nav className="md:w-8/12 xl:w-3/4 2xl:w-4/5 h-1/8 fixed  bg-yellow-300">
+            <Navbar />
+          </nav>
+          <div className="p-12">{children}</div>
         </main>
       </div>
     </>
