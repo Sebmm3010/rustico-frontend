@@ -21,7 +21,7 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
       </Head>
       <div className="md:flex h-full">
         {/* SideBar */}
-        <aside className="md:w-4/12 xl:w-1/4 2xl:w-1/5 border-r-[1px] border-red-950 bg-yellow-300 h-full">
+        <aside className="md:w-4/12 xl:w-1/4 2xl:w-1/5 border-r-[1px] border-red-950 bg-yellow-300">
           <Sidebar />
         </aside>
 

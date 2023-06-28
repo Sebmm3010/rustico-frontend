@@ -1,6 +1,11 @@
 export const Navbar = () => {
   return (
-    <div className="flex items-center justify-end w-full px-7">
+    <div className="flex items-center justify-end w-full px-7 gap-2">
+      <input
+        type="text"
+        placeholder="Buscar"
+        className="p-1 rounded-md border border-black"
+      />
       <svg
         viewBox="0 0 120 120"
         width="40"

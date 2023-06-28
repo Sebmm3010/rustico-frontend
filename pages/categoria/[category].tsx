@@ -18,7 +18,9 @@ const Categoria: NextPage<Props> = ({ products }) => {
       title={`Mr. Rustico - ${products[0].categoria}`}
       description="Pagina de categoria de productos"
     >
-      <h1 className="text-4xl font-black">{actualCategory.toUpperCase()}</h1>
+      <h1 className="text-4xl font-black text-white mb-3">
+        {actualCategory.toUpperCase()}
+      </h1>
       <ProductsList products={products} />
     </MainLayout>
   );
