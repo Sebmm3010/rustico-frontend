@@ -11,7 +11,6 @@ interface Props {
 }
 
 const SearchPage: NextPage<Props> = ({ query, validateProducts, products }) => {
-  console.log(validateProducts);
   return (
     <MainLayout
       title={`Mr. Rustico - Buscar: ${query}`}
