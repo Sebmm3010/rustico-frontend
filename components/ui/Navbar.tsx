@@ -10,14 +10,31 @@ export const Navbar = () => {
   };
   return (
     <div className="flex items-center justify-end w-full px-7 gap-2">
-      <input
-        type="text"
-        placeholder="Buscar"
-        className="p-1 rounded-md border border-black"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && onSearch()}
-      />
+      <div className="flex items-center gap-1">
+        <input
+          type="text"
+          placeholder="Buscar"
+          className="p-1 rounded-md border border-black"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && onSearch()}
+        />
+        <button
+          className="border border-black rounded-md p-1 bg-white"
+          type="button"
+          onClick={onSearch}
+        >
+          <svg
+            viewBox="0 0 32 32"
+            width="20"
+            height="20"
+            stroke="currentColor"
+            fill="currentColor"
+          >
+            <path d="M12.5 5.3c3.9 0 7.1 3.2 7 7.1 0 1.5-0.5 2.9-1.3 4.2l-0.7 0.9-0.9 0.7c-1.2 0.9-2.6 1.3-4.1 1.4-3.9 0-7.1-3.2-7.1-7.2s3.2-7.1 7.1-7.1zM12.5 1.8c-5.9 0-10.6 4.8-10.6 10.6s4.7 10.7 10.6 10.7c2.3 0 4.4-0.7 6.1-2l8.5 8.6c0.3 0.3 0.8 0.5 1.3 0.5s0.9-0.2 1.2-0.5c0.7-0.7 0.7-1.8 0-2.5l-8.5-8.6c1.2-1.7 2-3.9 2-6.2 0-5.9-4.7-10.7-10.6-10.6v0z" />
+          </svg>
+        </button>
+      </div>
       <svg
         viewBox="0 0 120 120"
         width="40"
