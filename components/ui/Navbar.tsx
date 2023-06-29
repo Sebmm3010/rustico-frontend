@@ -1,10 +1,22 @@
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+
 export const Navbar = () => {
+  const router = useRouter();
+  const [searchInput, setSearchInput] = useState('');
+  const onSearch = () => {
+    if (searchInput.trim().length === 0) return;
+    router.push(`/buscar/${searchInput}`);
+  };
   return (
     <div className="flex items-center justify-end w-full px-7 gap-2">
       <input
         type="text"
         placeholder="Buscar"
         className="p-1 rounded-md border border-black"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && onSearch()}
       />
       <svg
         viewBox="0 0 120 120"
