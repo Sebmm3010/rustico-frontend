@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
 interface ContextProps {
-  isAuthMenuOpen: boolean;
+  showModal: boolean;
   actualCategory: string;
   //* Metodos
-  toogleAuthMenu: () => void;
+  toogleModal: () => void;
   setActualCategory: (cat: string) => void;
 }
 

@@ -1,14 +1,14 @@
 import { UiState } from './';
 
 type UiActionType =
-  | { type: '[Ui] - toogleAuthMenu' }
+  | { type: '[Ui] - toogleModal' }
   | { type: '[Ui] - setActualCategory'; payload: string };
 export const uiReducer = (state: UiState, action: UiActionType): UiState => {
   switch (action.type) {
-    case '[Ui] - toogleAuthMenu':
+    case '[Ui] - toogleModal':
       return {
         ...state,
-        isAuthMenuOpen: !state.isAuthMenuOpen
+        showModal: !state.showModal
       };
     case '[Ui] - setActualCategory':
       return {

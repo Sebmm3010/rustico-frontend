@@ -2,12 +2,12 @@ import { FC, useReducer, ReactNode } from 'react';
 import { UiContext, uiReducer } from './';
 
 export interface UiState {
-  isAuthMenuOpen: boolean;
+  showModal: boolean;
   actualCategory: string;
 }
 
 const Ui_INITIAL_STATE: UiState = {
-  isAuthMenuOpen: false,
+  showModal: false,
   actualCategory: 'home'
 };
 
@@ -17,8 +17,8 @@ interface Props {
 export const UiProvider: FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(uiReducer, Ui_INITIAL_STATE);
 
-  const toogleAuthMenu = () => {
-    dispatch({ type: '[Ui] - toogleAuthMenu' });
+  const toogleModal = () => {
+    dispatch({ type: '[Ui] - toogleModal' });
   };
 
   const setActualCategory = (cat: string) => {
@@ -29,7 +29,7 @@ export const UiProvider: FC<Props> = ({ children }) => {
       value={{
         ...state,
         // *Metodos
-        toogleAuthMenu,
+        toogleModal,
         setActualCategory
       }}
     >
