@@ -1,13 +1,15 @@
-import { FC } from 'react';
-import { IProduct } from '@/interfaces';
+import { FC, useContext } from 'react';
 import Image from 'next/image';
+import { IProduct } from '@/interfaces';
 import { currency } from '@/utils';
+import { OrdersContext } from '@/context';
 
 interface Props {
   product: IProduct;
 }
 
 export const ProductCard: FC<Props> = ({ product }) => {
+  const { setSelectedProduct } = useContext(OrdersContext);
   const { imagen, titulo, precio } = product;
   return (
     <div className="border-2 rounded-md border-black p-3 bg-white">
@@ -23,6 +25,13 @@ export const ProductCard: FC<Props> = ({ product }) => {
         <p className="mt-5 font  text-4xl text-red-950">
           {currency.format(precio)}
         </p>
+        <button
+          className="bg-red-950 hover:bg-red-800 text-white w-full mt-5 p-3 uppercase font-bold"
+          type="button"
+          onClick={() => setSelectedProduct(product)}
+        >
+          Agregar
+        </button>
       </div>
     </div>
   );
