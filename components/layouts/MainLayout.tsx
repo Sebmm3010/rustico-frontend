@@ -1,7 +1,10 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useContext } from 'react';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
+import Modal from 'react-modal';
+import { ProductModal } from '../products';
 import { Navbar, Sidebar } from '../ui';
+import { UiContext } from '@/context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,7 +14,21 @@ interface Props {
   children: ReactNode;
 }
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
+
+Modal.setAppElement('#__next');
+
 export const MainLayout: FC<Props> = ({ title, description, children }) => {
+  const { showModal } = useContext(UiContext);
   return (
     <>
       <Head>
@@ -36,6 +53,11 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
           <div className="p-12">{children}</div>
         </main>
       </div>
+      {showModal && (
+        <Modal isOpen={showModal} style={customStyles}>
+          <ProductModal />
+        </Modal>
+      )}
     </>
   );
 };
