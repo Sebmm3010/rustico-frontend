@@ -28,6 +28,7 @@
     "typescript": "*"
   },
   "devDependencies": {
+    "@types/react-modal": "^3.16.0",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "^35.0.0",
