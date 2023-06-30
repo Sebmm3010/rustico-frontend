@@ -25,12 +25,11 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
           <Sidebar />
         </aside>
 
-        {/* Navbar */}
-
         {/* Cuerpo */}
         <main
           className={`${inter.className} md:w-8/12 xl:w-3/4 2xl:w-4/5 h-screen overflow-y-scroll scrollbar-hide`}
         >
+          {/* Navbar */}
           <nav className="md:w-8/12 xl:w-3/4 2xl:w-4/5 h-1/8 fixed  bg-yellow-300">
             <Navbar />
           </nav>
