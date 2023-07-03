@@ -27,8 +27,8 @@ export const ProductCard: FC<Props> = ({ product }) => {
           {currency.format(precio)}
         </p>
         <button
-          className="bg-red-950 hover:bg-red-800 text-white w-full mt-5 p-3 uppercase font-bold"
           type="button"
+          className="bg-red-950 md:hover:bg-red-800 text-white w-full mt-5 p-3 uppercase font-bold rounded-md"
           onClick={() => {
             toogleModal();
             setSelectedProduct(product);
