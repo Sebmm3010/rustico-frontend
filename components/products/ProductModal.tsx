@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Image from 'next/image';
 import { OrdersContext, UiContext } from '@/context';
 import { IProduct } from '@/interfaces';
@@ -7,6 +7,7 @@ import { currency } from '@/utils';
 export const ProductModal = () => {
   const { selectedProduct } = useContext(OrdersContext);
   const { toogleModal } = useContext(UiContext);
+  const [cantidad, setCantidad] = useState<number>(1);
   const { titulo, imagen, precio, descripcion } = selectedProduct as IProduct;
   return (
     <div className="md:flex gap-10">
@@ -35,7 +36,14 @@ export const ProductModal = () => {
 
         {/* Menos y mas */}
         <div className="flex gap-4 mt-5">
-          <button>
+          {/* Menos */}
+          <button
+            type="button"
+            onClick={() => {
+              if (cantidad === 1) return;
+              setCantidad(cantidad - 1);
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -52,9 +60,9 @@ export const ProductModal = () => {
             </svg>
           </button>
 
-          <p className="text-3xl">1</p>
-
-          <button>
+          <p className="text-3xl">{cantidad}</p>
+          {/* Mas */}
+          <button type="button" onClick={() => setCantidad(cantidad + 1)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
