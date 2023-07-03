@@ -1,5 +1,5 @@
 import { FC, useReducer, ReactNode } from 'react';
-import { OrdersContext, ordersReducer } from './';
+import { OrdersContext, ordersReducer } from '.';
 import { IProduct } from '@/interfaces';
 
 export interface OrdersState {

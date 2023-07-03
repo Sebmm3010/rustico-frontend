@@ -1,2 +1,2 @@
-export * from './Orders';
+export * from './order';
 export * from './ui';

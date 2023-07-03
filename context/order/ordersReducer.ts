@@ -1,5 +1,5 @@
 import { IProduct } from '@/interfaces';
-import { OrdersState } from './';
+import { OrdersState } from '.';
 
 type OrdersActionType = {
   type: '[Orders]-Set selected product';
