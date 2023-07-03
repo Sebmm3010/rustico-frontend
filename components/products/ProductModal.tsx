@@ -79,6 +79,13 @@ export const ProductModal = () => {
             </svg>
           </button>
         </div>
+
+        <button
+          type="button"
+          className="bg-red-950 md:hover:bg-red-800 text-white p-2 mt-3 font-bold rounded-md uppercase"
+        >
+          Agregar a la orden
+        </button>
       </div>
     </div>
   );
