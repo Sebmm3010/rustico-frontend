@@ -6,7 +6,7 @@ export const useProducts = (
   config: SWRConfiguration = {}
 ) => {
   const { data, error, isLoading } = useSWR<IProduct[]>(
-    `${process.env.NEXT_PUBLIC_BD}/${url}`,
+    `${process.env.NEXT_PUBLIC_API}/${url}`,
     config
   );
 
