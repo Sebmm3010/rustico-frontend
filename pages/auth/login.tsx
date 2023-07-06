@@ -1,8 +1,22 @@
+import { useState, useContext } from 'react';
 import Head from 'next/head';
+import { useForm } from 'react-hook-form';
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { RiLockPasswordLine } from 'react-icons/ri';
 
+interface FormData {
+  userName: string;
+  password: string;
+}
+
 const LoginPage = () => {
+  const { handleSubmit, register } = useForm<FormData>();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleLogin = async ({ userName, password }: FormData) => {
+    alert({ userName, password });
+    // console.log({ userName, password });
+  };
   return (
     <>
       <Head>
@@ -25,28 +39,38 @@ const LoginPage = () => {
                 <p className="text-gray-600 my-3">
                   Nombre de usuario y contraseña
                 </p>
-                <div className="flex flex-col items-center gap-1">
+                <form
+                  className="flex flex-col items-center gap-1"
+                  onSubmit={() => handleSubmit(handleLogin)}
+                >
                   <div className="bg-gray-100 w-64 p-2 flex items-center gap-2 border-b border-black shadow-xl">
                     <LiaUserEditSolid className="m-2 text-xl" />
                     <input
                       className="bg-gray-100 outline-none flex-1"
                       type="text"
-                      name="userName"
                       placeholder="Nombre de usuario"
+                      {...register('userName', {
+                        required: 'Nombre de usuario obligatorio'
+                      })}
                     />
                   </div>
                   <div className="bg-gray-100 w-64 p-2 flex items-center gap-2 border-b border-black shadow-xl">
                     <RiLockPasswordLine className="m-2 text-xl" />
                     <input
                       className="bg-gray-100 outline-none flex-1"
-                      type="password"
-                      name="password"
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="Contraseña"
+                      {...register('password', {
+                        required: 'Contraseña obligatoria'
+                      })}
                     />
                   </div>
                   <div className="flex w-64 mb-5">
                     <label className="flex items-center text-xs gap-1 font-semibold">
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        onChange={() => setShowPassword(!showPassword)}
+                      />
                       Ver contraseña
                     </label>
                   </div>
@@ -56,7 +80,7 @@ const LoginPage = () => {
                   >
                     Iniciar sesion
                   </button>
-                </div>
+                </form>
               </div>
             </div>
             <div className="md:w-2/5 hidden md:block bg-yellow-300 text-red-950 rounded-tr-2xl rounded-br-2xl py-36 px-12">

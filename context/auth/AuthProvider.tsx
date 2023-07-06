@@ -19,28 +19,11 @@ interface Props {
 export const AuthProvider: FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, Auth_INITIAL_STATE);
   const { data, status } = useSession();
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      dispatch({ type: '[Auth] - Login', payload: data.user as IUser });
-    }
-  }, [status, data]);
-
-  const loginUser = async (userName: string, password: string) => {
-    await signIn('credentials', { userName, password });
-    dispatch({ type: '[Auth] - Login', payload: data?.user as IUser });
-  };
-  const logoutUser = () => {
-    signOut();
-    dispatch({ type: '[Auth] - Logout' });
-  };
   return (
     <AuthContext.Provider
       value={{
-        ...state,
+        ...state
         //* Metodos
-        loginUser,
-        logoutUser
       }}
     >
       {children}
