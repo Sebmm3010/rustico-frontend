@@ -1,23 +1,30 @@
 import type { AppProps } from 'next/app';
-import { AuthProvider, OrdersProvider, UiProvider } from '@/context';
+import { SessionProvider } from 'next-auth/react';
 import { SWRConfig } from 'swr';
+
+import { AuthProvider, OrdersProvider, UiProvider } from '@/context';
 import '@/styles/globals.css';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps }
+}: AppProps) {
   return (
-    <SWRConfig
-      value={{
-        fetcher: (resouce, init) =>
-          fetch(resouce, init).then((res) => res.json())
-      }}
-    >
-      <AuthProvider>
-        <OrdersProvider>
-          <UiProvider>
-            <Component {...pageProps} />
-          </UiProvider>
-        </OrdersProvider>
-      </AuthProvider>
-    </SWRConfig>
+    <SessionProvider session={session}>
+      <SWRConfig
+        value={{
+          fetcher: (resouce, init) =>
+            fetch(resouce, init).then((res) => res.json())
+        }}
+      >
+        <AuthProvider>
+          <OrdersProvider>
+            <UiProvider>
+              <Component {...pageProps} />
+            </UiProvider>
+          </OrdersProvider>
+        </AuthProvider>
+      </SWRConfig>
+    </SessionProvider>
   );
 }
