@@ -1,3 +1,5 @@
+import rusticoApi from '@/apis/rusitcoApi';
+import { IUser } from '@/interfaces';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import Credencials from 'next-auth/providers/credentials';
 
@@ -19,12 +21,12 @@ export const authOptions: NextAuthOptions = {
         }
       },
       async authorize(credentials) {
-        return {
-          id: '1',
-          name: 'J Smith',
-          email: 'jsmith@example.com',
-          role: 'client'
-        };
+        const { userName, password } = credentials as any;
+        const { data: user } = await rusticoApi.post<IUser>('/auth/login', {
+          userName,
+          password
+        });
+        return user;
       }
     })
   ],
@@ -35,11 +37,30 @@ export const authOptions: NextAuthOptions = {
 
   // Callbacks
 
-  jwt: {}
-  //   session: {
-  //     maxAge: 86400, // 1d
-  //     strategy: 'jwt' as const
-  //   }
+  jwt: {},
+  session: {
+    maxAge: 86400, // 1d
+    strategy: 'jwt' as const
+  },
+
+  callbacks: {
+    async jwt({ account, token, user }) {
+      if (account) {
+        token.accessToken = account.access_token;
+        switch (account.type) {
+          case 'credentials':
+            token.user = user;
+            break;
+        }
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken as any;
+      session.user = token.user as any;
+      return session;
+    }
+  }
 };
 
 export default NextAuth(authOptions);

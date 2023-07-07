@@ -3,6 +3,8 @@ import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { signIn, useSession } from 'next-auth/react';
+import { AuthContext } from '@/context';
 
 interface FormData {
   userName: string;
@@ -12,10 +14,10 @@ interface FormData {
 const LoginPage = () => {
   const { handleSubmit, register } = useForm<FormData>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
+  const { loginUser } = useContext(AuthContext);
   const handleLogin = async ({ userName, password }: FormData) => {
-    alert({ userName, password });
     // console.log({ userName, password });
+    await loginUser(userName, password);
   };
   return (
     <>
@@ -41,7 +43,8 @@ const LoginPage = () => {
                 </p>
                 <form
                   className="flex flex-col items-center gap-1"
-                  onSubmit={() => handleSubmit(handleLogin)}
+                  onSubmit={handleSubmit(handleLogin)}
+                  noValidate
                 >
                   <div className="bg-gray-100 w-64 p-2 flex items-center gap-2 border-b border-black shadow-xl">
                     <LiaUserEditSolid className="m-2 text-xl" />
@@ -75,7 +78,7 @@ const LoginPage = () => {
                     </label>
                   </div>
                   <button
-                    type="button"
+                    type="submit"
                     className="border-2 border-black rounded-full px-12 py-2 inline-block font-semibold bg-red-950 text-white md:hover:bg-red-800"
                   >
                     Iniciar sesion
