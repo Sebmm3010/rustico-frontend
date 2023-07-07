@@ -2,7 +2,7 @@ import { IUser } from '@/interfaces';
 import { AuthState } from './';
 
 type authActionType =
-  | { type: '[Auth] - Login'; payload: IUser }
+  | { type: '[Auth] - Login'; payload: IUser | undefined }
   | { type: '[Auth] - Logout' };
 
 export const authReducer = (
