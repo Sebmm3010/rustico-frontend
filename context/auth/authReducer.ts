@@ -2,7 +2,14 @@ import { IUser } from '@/interfaces';
 import { AuthState } from './';
 
 type authActionType =
-  | { type: '[Auth] - Login'; payload: IUser | undefined }
+  | {
+      type: '[Auth] - Login';
+      payload: {
+        user: IUser | undefined | null;
+        log: boolean;
+        logError: boolean;
+      };
+    }
   | { type: '[Auth] - Logout' };
 
 export const authReducer = (
@@ -13,8 +20,9 @@ export const authReducer = (
     case '[Auth] - Login':
       return {
         ...state,
-        isLogged: true,
-        user: action.payload
+        isLogged: action.payload.log,
+        user: action.payload.user,
+        logError: action.payload.logError
       };
     case '[Auth] - Logout':
       return {

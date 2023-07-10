@@ -23,10 +23,14 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         const { userName, password } = credentials as any;
         const { data: user } = await rusticoApi.post<IUser>('/auth/login', {
-          userName,
+          userName: userName.toLowerCase(),
           password
         });
-        return user;
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
       }
     })
   ],

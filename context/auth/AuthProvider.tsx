@@ -6,11 +6,13 @@ import { IUser } from '@/interfaces';
 export interface AuthState {
   isLogged: boolean;
   user?: IUser | undefined | null;
+  logError: boolean;
 }
 
 const Auth_INITIAL_STATE: AuthState = {
   isLogged: false,
-  user: null
+  user: null,
+  logError: false
 };
 
 interface Props {
@@ -23,14 +25,31 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   useEffect(() => {
     if (status === 'authenticated') {
       console.log({ user: data });
-      dispatch({ type: '[Auth] - Login', payload: data.user });
+      dispatch({
+        type: '[Auth] - Login',
+        payload: { user: data.user, log: true, logError: false }
+      });
     }
   }, [status, data]);
 
   const loginUser = async (userName: string, password: string) => {
-    console.log(userName, password);
-    await signIn('credentials', { userName, password });
-    dispatch({ type: '[Auth] - Login', payload: data?.user });
+    const login = await signIn('credentials', {
+      userName,
+      password,
+      redirect: false
+    });
+    if (!login?.error) {
+      dispatch({
+        type: '[Auth] - Login',
+        payload: { user: data?.user, log: true, logError: false }
+      });
+    } else {
+      console.log({ err: login?.error });
+      dispatch({
+        type: '[Auth] - Login',
+        payload: { user: null, log: false, logError: true }
+      });
+    }
   };
 
   return (
