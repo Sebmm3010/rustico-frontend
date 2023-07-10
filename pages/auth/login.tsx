@@ -1,9 +1,11 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
+import { getSession, signIn, useSession } from 'next-auth/react';
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { RiLockPasswordLine } from 'react-icons/ri';
-import { signIn, useSession } from 'next-auth/react';
 import { AuthContext } from '@/context';
 
 interface FormData {
@@ -12,9 +14,25 @@ interface FormData {
 }
 
 const LoginPage = () => {
-  const { handleSubmit, register } = useForm<FormData>();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<FormData>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { loginUser } = useContext(AuthContext);
+  const [showError, setShowError] = useState<boolean>(false);
+  const { loginUser, logError } = useContext(AuthContext);
+
+  // Motrar si hay error en autenticacion
+  useEffect(() => {
+    if (logError) {
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+    }
+  }, [logError]);
+
   const handleLogin = async ({ userName, password }: FormData) => {
     // console.log({ userName, password });
     await loginUser(userName, password);
@@ -38,6 +56,13 @@ const LoginPage = () => {
                   Iniciar sesion
                 </h2>
                 <div className="border-2 w-10 border-red-950 inline-block mb-2 rounded-xl"></div>
+                {showError && (
+                  <div className="flex justify-center">
+                    <div className="bg-red-600 text-white w-1/2 flex items-center justify-center rounded-md p-3">
+                      <p>Error: No se pudo establecer un inicio de sesión</p>
+                    </div>
+                  </div>
+                )}
                 <p className="text-gray-600 my-3">
                   Nombre de usuario y contraseña
                 </p>
@@ -46,8 +71,16 @@ const LoginPage = () => {
                   onSubmit={handleSubmit(handleLogin)}
                   noValidate
                 >
-                  <div className="bg-gray-100 w-64 p-2 flex items-center gap-2 border-b border-black shadow-xl">
-                    <LiaUserEditSolid className="m-2 text-xl" />
+                  <div
+                    className={`bg-gray-100 w-64 p-2 flex items-center gap-2 border-b shadow-xl ${
+                      !errors.userName ? 'border-black' : 'border-red-600'
+                    }`}
+                  >
+                    <LiaUserEditSolid
+                      className={`m-2 text-xl font-bold ${
+                        errors.userName && 'text-red-600'
+                      }`}
+                    />
                     <input
                       className="bg-gray-100 outline-none flex-1"
                       type="text"
@@ -57,8 +90,21 @@ const LoginPage = () => {
                       })}
                     />
                   </div>
-                  <div className="bg-gray-100 w-64 p-2 flex items-center gap-2 border-b border-black shadow-xl">
-                    <RiLockPasswordLine className="m-2 text-xl" />
+                  {errors.userName && (
+                    <span className="text-xs text-red-600">
+                      {errors.userName?.message}
+                    </span>
+                  )}
+                  <div
+                    className={`bg-gray-100 w-64 p-2 flex items-center gap-2 border-b shadow-xl ${
+                      !errors.password ? 'border-black' : 'border-red-600'
+                    }`}
+                  >
+                    <RiLockPasswordLine
+                      className={`m-2 text-xl font-bold ${
+                        errors.password && 'text-red-600'
+                      }`}
+                    />
                     <input
                       className="bg-gray-100 outline-none flex-1"
                       type={showPassword ? 'text' : 'password'}
@@ -68,6 +114,12 @@ const LoginPage = () => {
                       })}
                     />
                   </div>
+                  {errors.password && (
+                    <span className="text-xs text-red-600">
+                      {errors.password?.message}
+                    </span>
+                  )}
+
                   <div className="flex w-64 mb-5">
                     <label className="flex items-center text-xs gap-1 font-semibold">
                       <input
@@ -99,6 +151,21 @@ const LoginPage = () => {
       </div>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    };
+  }
+  return {
+    props: {}
+  };
 };
 
 export default LoginPage;
