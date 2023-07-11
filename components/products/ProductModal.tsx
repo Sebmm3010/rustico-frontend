@@ -5,19 +5,26 @@ import {
   AiOutlinePlusCircle,
   AiOutlineClose
 } from 'react-icons/ai';
-import { OrdersContext, UiContext } from '@/context';
+import { AuthContext, OrdersContext, UiContext } from '@/context';
 import { IProduct } from '@/interfaces';
 import { currency } from '@/utils';
 
 export const ProductModal = () => {
   const { selectedProduct } = useContext(OrdersContext);
   const { toogleModal } = useContext(UiContext);
+  const { isLogged } = useContext(AuthContext);
   const [cantidad, setCantidad] = useState<number>(1);
   const { titulo, imagen, precio, descripcion } = selectedProduct as IProduct;
   return (
     <div className="md:flex gap-10">
       <div className="md:w-1/3">
-        <Image width={300} height={500} alt={titulo} src={imagen} />
+        <Image
+          className="rounded-md shadow-md border-black border-2"
+          width={300}
+          height={500}
+          alt={titulo}
+          src={imagen}
+        />
       </div>
       <div className="md:w-2/3">
         <div className="flex justify-end">
@@ -53,7 +60,10 @@ export const ProductModal = () => {
 
         <button
           type="button"
-          className="bg-red-950 md:hover:bg-red-800 text-white p-2 mt-3 font-bold rounded-md uppercase"
+          className={`text-white p-2 mt-3 font-bold rounded-md uppercase ${
+            isLogged ? 'bg-red-950 md:hover:bg-red-800' : 'bg-red-400'
+          }`}
+          disabled={!isLogged}
         >
           Agregar a la orden
         </button>
