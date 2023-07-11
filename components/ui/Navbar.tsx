@@ -1,9 +1,12 @@
+import { AuthContext } from '@/context';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { BiUserCircle, BiSearchAlt } from 'react-icons/bi';
 
 export const Navbar = () => {
   const router = useRouter();
+  const { isLogged } = useContext(AuthContext);
   const [searchInput, setSearchInput] = useState('');
   const onSearch = () => {
     if (searchInput.trim().length === 0) return;
@@ -27,9 +30,15 @@ export const Navbar = () => {
         >
           <BiSearchAlt className="text-xl" />
         </button>
-      </div>
-      <div>
-        <BiUserCircle className="font-bold text-4xl" />
+        {isLogged ? (
+          <div>
+            <BiUserCircle className="font-bold text-4xl" />
+          </div>
+        ) : (
+          <Link className="ml-2" href="/auth/login">
+            Iniciar
+          </Link>
+        )}
       </div>
     </div>
   );
