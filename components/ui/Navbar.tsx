@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 import { BiUserCircle, BiSearchAlt } from 'react-icons/bi';
+import { UserMenu } from './UserMenu';
 
 export const Navbar = () => {
   const router = useRouter();
@@ -31,9 +32,7 @@ export const Navbar = () => {
           <BiSearchAlt className="text-xl" />
         </button>
         {isLogged ? (
-          <div>
-            <BiUserCircle className="font-bold text-4xl" />
-          </div>
+          <UserMenu />
         ) : (
           <Link className="ml-2" href="/auth/login">
             Iniciar
