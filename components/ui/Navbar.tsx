@@ -1,13 +1,14 @@
-import { AuthContext } from '@/context';
+import { AuthContext, UiContext } from '@/context';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FormEvent, useContext, useState } from 'react';
-import { BiUserCircle, BiSearchAlt } from 'react-icons/bi';
+import { BiUserCircle } from 'react-icons/bi';
 import { UserMenu } from './UserMenu';
 
 export const Navbar = () => {
   const router = useRouter();
   const { isLogged } = useContext(AuthContext);
+  const { showUserMenu, setShowUserMenu } = useContext(UiContext);
   const [searchInput, setSearchInput] = useState('');
   const handleSearch = (event?: FormEvent) => {
     event?.preventDefault();
@@ -15,7 +16,7 @@ export const Navbar = () => {
     router.push(`/buscar/${searchInput}`);
   };
   return (
-    <div className="flex items-center justify-end w-full px-7 gap-2 border-b border-red-950">
+    <div className="flex items-center justify-end w-full px-7 gap-2 border-b border-red-950 shadow-md">
       <div className="flex items-center gap-1 my-1">
         <form onSubmit={(e) => handleSearch(e)}>
           <input
@@ -27,7 +28,12 @@ export const Navbar = () => {
           />
         </form>
         {isLogged ? (
-          <UserMenu />
+          <>
+            <button type="button" onClick={() => setShowUserMenu(true)}>
+              <BiUserCircle className="font-bold text-4xl cursor-pointer" />
+            </button>
+            {showUserMenu && <UserMenu />}
+          </>
         ) : (
           <Link className="ml-2" href="/auth/login">
             Iniciar

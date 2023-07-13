@@ -1,40 +1,39 @@
-import { AuthContext } from '@/context';
+import { AuthContext, UiContext } from '@/context';
 import { useClickOut } from '@/hooks';
 import { signOut } from 'next-auth/react';
-import { FC, useContext, useRef, useState } from 'react';
-import { BiUserCircle } from 'react-icons/bi';
+import { FC, useContext } from 'react';
 import { ImExit } from 'react-icons/im';
 
 export const UserMenu: FC = () => {
-  const [showMenu, setShowMenu] = useState(false);
   const { user } = useContext(AuthContext);
-  const ref = useClickOut(() => setShowMenu(false));
+  const { setShowUserMenu } = useContext(UiContext);
+  const ref = useClickOut(() => setShowUserMenu(false));
   return (
-    <div className="mr-4">
-      <BiUserCircle
-        className="font-bold text-4xl cursor-pointer"
-        onClick={() => setShowMenu(!showMenu)}
-      />
-      {showMenu && (
-        <div
-          ref={ref}
-          className="bg-yellow-300 p-4 shadow-lg absolute right-4 border border-black rounded-md"
-        >
-          <ul className="text-red-950">
-            <li className="border-b-red-950 border-b">Perfil</li>
-            {user?.roles.includes('admin') && (
-              <li className="border-b-red-950 border-b">Admin panel</li>
-            )}
-            <button
-              type="button"
-              className="flex justify-center items-center gap-2 mt-2"
-              onClick={() => signOut()}
-            >
-              Salir <ImExit />
-            </button>
-          </ul>
-        </div>
-      )}
-    </div>
+    <>
+      <div className="bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm"></div>
+      <div
+        ref={ref}
+        className="bg-gray-500 min-h-screen w-80 fixed top-0 right-0 border-l border-white shadow-lg"
+      >
+        <ul className="pt-3 text-white">
+          {user?.roles.includes('admin') && (
+            <>
+              <li className="text-xl gap-2 mb-3 shadow-sm lg:hover:bg-gray-400 text-center flex justify-center items-center cursor-pointer">
+                Panel de administracion
+              </li>
+              <div className="h-[1px] bg-white w-full mb-2"></div>
+            </>
+          )}
+          <li
+            className="text-xl gap-2 mb-3 shadow-sm lg:hover:bg-gray-400 text-center flex justify-center items-center cursor-pointer"
+            onClick={() => signOut()}
+          >
+            <ImExit />
+            Salir
+          </li>
+          <div className="h-[1px] bg-white w-full"></div>
+        </ul>
+      </div>
+    </>
   );
 };
