@@ -1,12 +1,14 @@
 import { AuthContext } from '@/context';
+import { useClickOut } from '@/hooks';
 import { signOut } from 'next-auth/react';
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useRef, useState } from 'react';
 import { BiUserCircle } from 'react-icons/bi';
 import { ImExit } from 'react-icons/im';
 
 export const UserMenu: FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { user } = useContext(AuthContext);
+  const ref = useClickOut(() => setShowMenu(false));
   return (
     <div className="mr-4">
       <BiUserCircle
@@ -14,7 +16,10 @@ export const UserMenu: FC = () => {
         onClick={() => setShowMenu(!showMenu)}
       />
       {showMenu && (
-        <div className="bg-yellow-300 p-4 shadow-lg absolute right-4 border border-black rounded-md">
+        <div
+          ref={ref}
+          className="bg-yellow-300 p-4 shadow-lg absolute right-4 border border-black rounded-md"
+        >
           <ul className="text-red-950">
             <li className="border-b-red-950 border-b">Perfil</li>
             {user?.roles.includes('admin') && (

@@ -24,7 +24,6 @@ export const AuthProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      console.log({ user: data });
       dispatch({
         type: '[Auth] - Login',
         payload: { user: data.user, log: true, logError: false }
@@ -45,7 +44,6 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       });
       return true;
     } else {
-      console.log({ err: login?.error });
       dispatch({
         type: '[Auth] - Login',
         payload: { user: null, log: false, logError: true }
