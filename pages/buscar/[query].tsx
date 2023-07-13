@@ -17,12 +17,12 @@ const SearchPage: NextPage<Props> = ({ query, validateProducts, products }) => {
       description="Pagina de busqueda Mr. Rustico"
     >
       {validateProducts ? (
-        <h1 className="text-4xl font-black text-yellow-400 mb-3">
+        <h1 className="text-4xl font-black text-red-950 mb-3">
           {' '}
           Productos con: {query.toUpperCase()}
         </h1>
       ) : (
-        <h1 className="text-4xl font-black text-white mb-3">
+        <h1 className="text-4xl font-black text-red-950 mb-3">
           No se encontraron productos con:{' '}
           <span className="underline">{query.toUpperCase()}</span>
         </h1>
