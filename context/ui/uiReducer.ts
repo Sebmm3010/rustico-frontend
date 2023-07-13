@@ -2,7 +2,8 @@ import { UiState } from './';
 
 type UiActionType =
   | { type: '[Ui] - toogleModal' }
-  | { type: '[Ui] - setActualCategory'; payload: string };
+  | { type: '[Ui] - setActualCategory'; payload: string }
+  | { type: '[Ui] - setShowUserMenu'; payload: boolean };
 export const uiReducer = (state: UiState, action: UiActionType): UiState => {
   switch (action.type) {
     case '[Ui] - toogleModal':
@@ -14,6 +15,11 @@ export const uiReducer = (state: UiState, action: UiActionType): UiState => {
       return {
         ...state,
         actualCategory: action.payload
+      };
+    case '[Ui] - setShowUserMenu':
+      return {
+        ...state,
+        showUserMenu: action.payload
       };
     default:
       return state;

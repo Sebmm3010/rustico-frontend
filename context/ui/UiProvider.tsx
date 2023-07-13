@@ -3,11 +3,13 @@ import { UiContext, uiReducer } from './';
 
 export interface UiState {
   showModal: boolean;
+  showUserMenu: boolean;
   actualCategory: string;
 }
 
 const Ui_INITIAL_STATE: UiState = {
   showModal: false,
+  showUserMenu: false,
   actualCategory: 'home'
 };
 
@@ -24,13 +26,17 @@ export const UiProvider: FC<Props> = ({ children }) => {
   const setActualCategory = (cat: string) => {
     dispatch({ type: '[Ui] - setActualCategory', payload: cat });
   };
+  const setShowUserMenu = (payload: boolean) => {
+    dispatch({ type: '[Ui] - setShowUserMenu', payload });
+  };
   return (
     <UiContext.Provider
       value={{
         ...state,
         // *Metodos
         toogleModal,
-        setActualCategory
+        setActualCategory,
+        setShowUserMenu
       }}
     >
       {children}
