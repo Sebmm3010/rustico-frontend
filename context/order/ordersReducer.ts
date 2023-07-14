@@ -1,10 +1,15 @@
 import { IProduct } from '@/interfaces';
 import { OrdersState } from '.';
 
-type OrdersActionType = {
-  type: '[Orders]-Set selected product';
-  payload: IProduct;
-};
+type OrdersActionType =
+  | {
+      type: '[Orders]-Set selected product';
+      payload: IProduct;
+    }
+  | {
+      type: '[Orders]- Ordern actual';
+      payload: any;
+    };
 
 export const ordersReducer = (
   state: OrdersState,
@@ -16,7 +21,11 @@ export const ordersReducer = (
         ...state,
         selectedProduct: action.payload
       };
-
+    case '[Orders]- Ordern actual':
+      return {
+        ...state,
+        actualOrder: action.payload
+      };
     default:
       return state;
   }
