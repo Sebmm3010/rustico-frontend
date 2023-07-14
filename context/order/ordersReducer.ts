@@ -1,4 +1,4 @@
-import { IProduct } from '@/interfaces';
+import { IOrder, IProduct, OrderItem } from '@/interfaces';
 import { OrdersState } from '.';
 
 type OrdersActionType =
@@ -8,7 +8,11 @@ type OrdersActionType =
     }
   | {
       type: '[Orders]- Ordern actual';
-      payload: any;
+      payload: IOrder;
+    }
+  | {
+      type: '[Orders]- Actualizar order items';
+      payload: OrderItem[];
     };
 
 export const ordersReducer = (
@@ -20,6 +24,11 @@ export const ordersReducer = (
       return {
         ...state,
         selectedProduct: action.payload
+      };
+    case '[Orders]- Actualizar order items':
+      return {
+        ...state,
+        orderItems: action.payload
       };
     case '[Orders]- Ordern actual':
       return {
