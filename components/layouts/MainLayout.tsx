@@ -1,10 +1,10 @@
-import { FC, ReactNode, useContext } from 'react';
-import { Inter } from 'next/font/google';
+import { FC, ReactNode } from 'react';
 import Head from 'next/head';
+import { Inter } from 'next/font/google';
 import Modal from 'react-modal';
 import { ProductModal } from '../products';
 import { Navbar, Sidebar } from '../ui';
-import { UiContext } from '@/context';
+import { useAppContext } from '@/hooks';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,7 +28,7 @@ const customStyles = {
 Modal.setAppElement('#__next');
 
 export const MainLayout: FC<Props> = ({ title, description, children }) => {
-  const { showModal } = useContext(UiContext);
+  const { showModal } = useAppContext();
   return (
     <>
       <Head>

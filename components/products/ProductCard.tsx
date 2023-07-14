@@ -1,16 +1,15 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import Image from 'next/image';
 import { IProduct } from '@/interfaces';
 import { currency } from '@/utils';
-import { OrdersContext, UiContext } from '@/context';
+import { useAppContext } from '@/hooks';
 
 interface Props {
   product: IProduct;
 }
 
 export const ProductCard: FC<Props> = ({ product }) => {
-  const { setSelectedProduct } = useContext(OrdersContext);
-  const { toogleModal } = useContext(UiContext);
+  const { setSelectedProduct, toogleModal } = useAppContext();
   const { imagen, titulo, precio } = product;
   return (
     <div className="border-2 rounded-md border-black p-3 bg-white">

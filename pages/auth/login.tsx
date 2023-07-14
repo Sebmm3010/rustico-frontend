@@ -1,12 +1,12 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { RiLockPasswordLine } from 'react-icons/ri';
-import { AuthContext } from '@/context';
-import { useRouter } from 'next/router';
+import { useAppContext } from '@/hooks';
 
 interface FormData {
   userName: string;
@@ -21,7 +21,7 @@ const LoginPage = () => {
   } = useForm<FormData>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showError, setShowError] = useState<boolean>(false);
-  const { loginUser, logError } = useContext(AuthContext);
+  const { loginUser, logError } = useAppContext();
   const router = useRouter();
 
   // Motrar si hay error en autenticacion

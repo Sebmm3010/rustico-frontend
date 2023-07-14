@@ -1,18 +1,16 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import {
   AiOutlineMinusCircle,
   AiOutlinePlusCircle,
   AiOutlineClose
 } from 'react-icons/ai';
-import { AuthContext, OrdersContext, UiContext } from '@/context';
 import { IProduct } from '@/interfaces';
 import { currency } from '@/utils';
+import { useAppContext } from '@/hooks';
 
 export const ProductModal = () => {
-  const { selectedProduct } = useContext(OrdersContext);
-  const { toogleModal } = useContext(UiContext);
-  const { isLogged } = useContext(AuthContext);
+  const { selectedProduct, toogleModal, isLogged } = useAppContext();
   const [cantidad, setCantidad] = useState<number>(1);
   const { titulo, imagen, precio, descripcion } = selectedProduct as IProduct;
   return (

@@ -1,14 +1,13 @@
-import { AuthContext, UiContext } from '@/context';
+import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FormEvent, useContext, useState } from 'react';
 import { BiUserCircle } from 'react-icons/bi';
 import { UserMenu } from './UserMenu';
+import { useAppContext } from '@/hooks';
 
 export const Navbar = () => {
   const router = useRouter();
-  const { isLogged } = useContext(AuthContext);
-  const { showUserMenu, setShowUserMenu } = useContext(UiContext);
+  const { isLogged, showUserMenu, setShowUserMenu } = useAppContext();
   const [searchInput, setSearchInput] = useState('');
   const handleSearch = (event?: FormEvent) => {
     event?.preventDefault();

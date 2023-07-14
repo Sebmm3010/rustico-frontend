@@ -1,12 +1,10 @@
-import { AuthContext, UiContext } from '@/context';
-import { useClickOut } from '@/hooks';
+import { FC } from 'react';
 import { signOut } from 'next-auth/react';
-import { FC, useContext } from 'react';
 import { ImExit } from 'react-icons/im';
+import { useAppContext, useClickOut } from '@/hooks';
 
 export const UserMenu: FC = () => {
-  const { user } = useContext(AuthContext);
-  const { setShowUserMenu } = useContext(UiContext);
+  const { user, setShowUserMenu } = useAppContext();
   const ref = useClickOut(() => setShowUserMenu(false));
   return (
     <>

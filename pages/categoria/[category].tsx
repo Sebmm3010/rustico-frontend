@@ -1,18 +1,17 @@
-import { useContext } from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { categorias } from '@/utils';
 import rusticoApi from '@/apis/rusitcoApi';
 import { IProduct } from '@/interfaces';
 import { MainLayout } from '@/components/layouts';
-import { UiContext } from '@/context';
 import { ProductsList } from '@/components/products';
+import { useAppContext } from '@/hooks';
 
 interface Props {
   products: IProduct[];
 }
 
 const Categoria: NextPage<Props> = ({ products }) => {
-  const { actualCategory } = useContext(UiContext);
+  const { actualCategory } = useAppContext();
   return (
     <MainLayout
       title={`Mr. Rustico - ${products[0].categoria}`}

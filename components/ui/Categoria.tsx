@@ -1,12 +1,12 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ICategotias as Props } from '@/utils';
-import { UiContext } from '@/context';
+import { useAppContext } from '@/hooks';
 
 export const Categoria: FC<Props> = ({ name, icon, link }) => {
-  const { actualCategory, setActualCategory } = useContext(UiContext);
+  const { actualCategory, setActualCategory } = useAppContext();
   const router = useRouter();
 
   return (
