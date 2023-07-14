@@ -10,9 +10,14 @@ import { currency } from '@/utils';
 import { useAppContext } from '@/hooks';
 
 export const ProductModal = () => {
-  const { selectedProduct, toogleModal, isLogged } = useAppContext();
+  const { selectedProduct, toogleModal, isLogged, handleAgregarProducto } =
+    useAppContext();
   const [cantidad, setCantidad] = useState<number>(1);
   const { titulo, imagen, precio, descripcion } = selectedProduct as IProduct;
+  const onAddProduct = () => {
+    if (!isLogged) return;
+    handleAgregarProducto(selectedProduct!, cantidad);
+  };
   return (
     <div className="md:flex gap-10">
       <div className="md:w-1/3">
@@ -62,6 +67,7 @@ export const ProductModal = () => {
             isLogged ? 'bg-red-950 md:hover:bg-red-800' : 'bg-red-400'
           }`}
           disabled={!isLogged}
+          onClick={onAddProduct}
         >
           Agregar a la orden
         </button>
