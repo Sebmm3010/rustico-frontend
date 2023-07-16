@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   AiOutlineMinusCircle,
@@ -10,13 +10,31 @@ import { currency } from '@/utils';
 import { useAppContext } from '@/hooks';
 
 export const ProductModal = () => {
-  const { selectedProduct, toogleModal, isLogged, handleAgregarProducto } =
-    useAppContext();
+  const {
+    actualOrder,
+    handleAgregarProducto,
+    isLogged,
+    orderItems,
+    selectedProduct,
+    toogleModal
+  } = useAppContext();
   const [cantidad, setCantidad] = useState<number>(1);
   const { titulo, imagen, precio, descripcion } = selectedProduct as IProduct;
+
+  useEffect(() => {
+    const validate = orderItems.some((item) => item.id === selectedProduct?.id);
+    if (validate) {
+      const productInOrder = orderItems.find(
+        (item) => item.id === selectedProduct?.id
+      );
+      setCantidad(productInOrder!.cantidad);
+    }
+  }, [selectedProduct, actualOrder]);
+
   const onAddProduct = () => {
     if (!isLogged) return;
     handleAgregarProducto(selectedProduct!, cantidad);
+    toogleModal();
   };
   return (
     <div className="md:flex gap-10">
