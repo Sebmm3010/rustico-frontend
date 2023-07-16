@@ -11,6 +11,11 @@ interface Props {
 export const ProductCard: FC<Props> = ({ product }) => {
   const { setSelectedProduct, toogleModal } = useAppContext();
   const { imagen, titulo, precio } = product;
+  const handleSelectedProduct = () => {
+    if (!product.inStock) return;
+    toogleModal();
+    setSelectedProduct(product);
+  };
   return (
     <div className="border-2 rounded-md border-black p-3 bg-white">
       <Image
@@ -28,12 +33,9 @@ export const ProductCard: FC<Props> = ({ product }) => {
         <button
           type="button"
           className="bg-red-950 md:hover:bg-red-800 text-white w-full mt-5 p-3 uppercase font-bold rounded-md"
-          onClick={() => {
-            toogleModal();
-            setSelectedProduct(product);
-          }}
+          onClick={handleSelectedProduct}
         >
-          Agregar
+          {product.inStock ? 'Ver mas' : 'No disponible'}
         </button>
       </div>
     </div>
