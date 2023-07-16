@@ -1,4 +1,4 @@
-import { FC, useReducer, ReactNode, useState, useEffect } from 'react';
+import { FC, useReducer, ReactNode, useEffect } from 'react';
 import { OrdersContext, ordersReducer } from '.';
 import { IProduct } from '@/interfaces';
 import { IOrder, OrderItem } from '../../interfaces/orders';
