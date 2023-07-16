@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import Modal from 'react-modal';
 import { ProductModal } from '../products';
-import { Navbar, Sidebar } from '../ui';
+import { Navbar, ProgressBar, Sidebar } from '../ui';
 import { useAppContext } from '@/hooks';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -50,6 +50,7 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
           <nav className="md:w-8/12 xl:w-3/4 2xl:w-4/5 h-1/8 fixed  bg-yellow-300">
             <Navbar />
           </nav>
+          <ProgressBar />
           <div className="p-12">{children}</div>
         </main>
       </div>
