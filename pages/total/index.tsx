@@ -7,7 +7,8 @@ const TotalPage = () => {
       title="Mr. Rustico - Confirmar pedido"
       description="Resumen de ordenes"
     >
-      <h1>Confirmar</h1>
+      <h1 className="text-4xl text-white font-bold">Confirmar y total</h1>
+      <p className="text-xl text-white my-9">Confiormar orden</p>
     </MainLayout>
   );
 };
