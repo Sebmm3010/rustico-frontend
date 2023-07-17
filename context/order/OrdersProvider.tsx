@@ -41,12 +41,13 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
   };
   // ? Orden
   const handleAgregarProducto = (
-    { id, precio, titulo }: IProduct,
+    { id, precio, titulo, imagen }: IProduct,
     cantidad: number
   ) => {
     const orderItem = {
       id,
       titulo,
+      imagen,
       precio,
       cantidad,
       subTotal: cantidad * precio

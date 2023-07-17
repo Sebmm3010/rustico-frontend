@@ -10,6 +10,7 @@ export interface IOrder {
 export interface OrderItem {
   id: string;
   titulo: string;
+  imagen: string;
   precio: number;
   cantidad: number;
   subTotal: number;
