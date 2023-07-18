@@ -11,7 +11,7 @@ export const UserMenu: FC = () => {
       <div className="bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm"></div>
       <div
         ref={ref}
-        className="bg-gray-900 min-h-screen w-80 fixed top-0 right-0 border-l border-white shadow-lg"
+        className="bg-gray-900 min-h-screen w-80 absolute top-0 right-0 border-l border-white shadow-lg z-[999]"
       >
         <h1 className="text-white text-4xl font-bold text-center mt-5 border-b p-2">
           Mr. Rustico

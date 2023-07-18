@@ -15,7 +15,18 @@ export const Navbar = () => {
     router.push(`/buscar/${searchInput}`);
   };
   return (
-    <div className="flex items-center justify-end w-full px-7 gap-2 border-b border-red-950 shadow-md">
+    <div className="flex items-center justify-around w-full px-7 gap-2 border-b border-red-950 shadow-md">
+      <ul className="flex justify-around flex-1 text-red-950 font-bold text-xl">
+        <Link href="/" className="hover:underline">
+          Menú
+        </Link>
+        <Link href="/resumen" className="hover:underline">
+          Resumen
+        </Link>
+        <Link href="/total" className="hover:underline">
+          Total
+        </Link>
+      </ul>
       <div className="flex items-center gap-1 my-1">
         <form onSubmit={(e) => handleSearch(e)}>
           <input
