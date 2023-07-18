@@ -5,7 +5,7 @@ export interface IOrder {
   orderSubTotal: number;
   total: number;
   nota?: string;
-  mesa?: number;
+  mesa?: string;
 }
 
 export interface OrderItem {
