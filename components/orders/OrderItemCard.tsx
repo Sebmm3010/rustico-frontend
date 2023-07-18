@@ -11,11 +11,12 @@ interface Props {
 }
 
 export const OrderItemCard: FC<Props> = ({ item }) => {
-  const { isEditando, setEditando, handleEditarCantidad } = useAppContext();
+  const { handleEditarCantidad } = useAppContext();
   const [cantidad, setCantidad] = useState(item.cantidad);
+  const [editando, setEditando] = useState(false);
   const onSave = () => {
     handleEditarCantidad(cantidad, item.id);
-    setEditando();
+    setEditando(!editando);
   };
   return (
     <div className="shadow p-5 mb-3 bg-gray-100 flex gap-10 items-center rounded-lg">
@@ -37,7 +38,7 @@ export const OrderItemCard: FC<Props> = ({ item }) => {
         <p className="text-sm mt-2 font-bold text-gray-700">
           Total: {currency.format(item.precio * item.cantidad)}
         </p>
-        {isEditando && (
+        {editando && (
           <div className="flex justify-evenly">
             <button
               type="button"
@@ -61,10 +62,10 @@ export const OrderItemCard: FC<Props> = ({ item }) => {
         )}
       </div>
       <div className="flex flex-col gap-5">
-        {!isEditando ? (
+        {!editando ? (
           <button
             type="button"
-            onClick={() => setEditando()}
+            onClick={() => setEditando(!editando)}
             className="bg-[#000300] flex px-5 py-2 text-white rounded-md font-bold uppercase shadow-md w-full lg:w-auto items-center gap-2 border border-black"
           >
             <BiEdit /> Editar

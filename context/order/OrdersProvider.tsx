@@ -7,12 +7,14 @@ export interface OrdersState {
   selectedProduct: IProduct | null;
   actualOrder: IOrder | null;
   orderItems: OrderItem[];
+  isEditando: boolean;
 }
 
 const Orders_INITIAL_STATE: OrdersState = {
   selectedProduct: null,
   actualOrder: null,
-  orderItems: []
+  orderItems: [],
+  isEditando: false
 };
 
 interface Props {
@@ -39,6 +41,7 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
   const setSelectedProduct = (product: IProduct) => {
     dispatch({ type: '[Orders]-Set selected product', payload: product });
   };
+
   // ? Orden
   const handleAgregarProducto = (
     { id, precio, titulo, imagen }: IProduct,
@@ -70,13 +73,27 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
       });
     }
   };
+  const handleEditarCantidad = (newCantidad: number, id: string) => {
+    const editedOrderItems = state.orderItems.map((item) => {
+      if (item.id === id) {
+        return { ...item, cantidad: newCantidad };
+      } else {
+        return item;
+      }
+    });
+    dispatch({
+      type: '[Orders]- Actualizar order items',
+      payload: editedOrderItems
+    });
+  };
   return (
     <OrdersContext.Provider
       value={{
         ...state,
         // * Metodos
         setSelectedProduct,
-        handleAgregarProducto
+        handleAgregarProducto,
+        handleEditarCantidad
       }}
     >
       {children}
