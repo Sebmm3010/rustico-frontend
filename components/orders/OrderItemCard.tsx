@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const OrderItemCard: FC<Props> = ({ item }) => {
-  const { handleEditarCantidad } = useAppContext();
+  const { handleEditarCantidad, handleEliminarProducto } = useAppContext();
   const [cantidad, setCantidad] = useState(item.cantidad);
   const [editando, setEditando] = useState(false);
   const onSave = () => {
@@ -82,6 +82,7 @@ export const OrderItemCard: FC<Props> = ({ item }) => {
         <button
           type="button"
           className="bg-[#ff0000] flex px-5 py-2 text-white rounded-md font-bold uppercase shadow-md w-full lg:w-auto items-center gap-2 border border-black"
+          onClick={() => handleEliminarProducto(item.id)}
         >
           {' '}
           <BiTrash /> elminar

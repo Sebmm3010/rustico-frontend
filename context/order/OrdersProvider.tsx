@@ -86,6 +86,13 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
       payload: editedOrderItems
     });
   };
+  const handleEliminarProducto = (id: string) => {
+    const newOrderItems = state.orderItems.filter((item) => item.id !== id);
+    dispatch({
+      type: '[Orders]- Actualizar order items',
+      payload: newOrderItems
+    });
+  };
   return (
     <OrdersContext.Provider
       value={{
@@ -93,7 +100,8 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
         // * Metodos
         setSelectedProduct,
         handleAgregarProducto,
-        handleEditarCantidad
+        handleEditarCantidad,
+        handleEliminarProducto
       }}
     >
       {children}
