@@ -11,7 +11,6 @@ import { useAppContext } from '@/hooks';
 
 export const ProductModal = () => {
   const {
-    actualOrder,
     handleAgregarProducto,
     isLogged,
     orderItems,
@@ -29,7 +28,7 @@ export const ProductModal = () => {
       );
       setCantidad(productInOrder!.cantidad);
     }
-  }, [selectedProduct, actualOrder]);
+  }, [selectedProduct]);
 
   const onAddProduct = () => {
     if (!isLogged) return;

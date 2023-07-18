@@ -10,6 +10,7 @@ interface ContextProps {
   handleAgregarProducto: (producto: IProduct, cantidad: number) => void;
   handleEditarCantidad: (newCantidad: number, id: string) => void;
   handleEliminarProducto: (id: string) => void;
+  handleOrdenFinal: (mesa: string, nota?: string) => void;
 }
 
 export const OrdersContext = createContext({} as ContextProps);

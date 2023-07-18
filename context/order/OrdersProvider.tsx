@@ -7,14 +7,12 @@ export interface OrdersState {
   selectedProduct: IProduct | null;
   actualOrder: IOrder | null;
   orderItems: OrderItem[];
-  isEditando: boolean;
 }
 
 const Orders_INITIAL_STATE: OrdersState = {
   selectedProduct: null,
   actualOrder: null,
-  orderItems: [],
-  isEditando: false
+  orderItems: []
 };
 
 interface Props {
@@ -93,6 +91,14 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
       payload: newOrderItems
     });
   };
+
+  const handleOrdenFinal = (mesa: string, nota?: string) => {
+    const ordenFinal = { ...state.actualOrder, mesa, nota };
+    dispatch({
+      type: '[Orders]- Ordern actual',
+      payload: ordenFinal as IOrder
+    });
+  };
   return (
     <OrdersContext.Provider
       value={{
@@ -101,7 +107,8 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
         setSelectedProduct,
         handleAgregarProducto,
         handleEditarCantidad,
-        handleEliminarProducto
+        handleEliminarProducto,
+        handleOrdenFinal
       }}
     >
       {children}
