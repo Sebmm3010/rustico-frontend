@@ -1,14 +1,22 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Image from 'next/image';
-import { BiEdit, BiTrash } from 'react-icons/bi';
+import { BiEdit, BiTrash, BiSave } from 'react-icons/bi';
+import { AiOutlineMinusCircle, AiOutlinePlusCircle } from 'react-icons/ai';
 import { OrderItem } from '@/interfaces';
 import { currency } from '@/utils';
+import { useAppContext } from '@/hooks';
 
 interface Props {
   item: OrderItem;
 }
 
 export const OrderItemCard: FC<Props> = ({ item }) => {
+  const { isEditando, setEditando, handleEditarCantidad } = useAppContext();
+  const [cantidad, setCantidad] = useState(item.cantidad);
+  const onSave = () => {
+    handleEditarCantidad(cantidad, item.id);
+    setEditando();
+  };
   return (
     <div className="shadow p-5 mb-3 bg-gray-100 flex gap-10 items-center rounded-lg">
       <div className="md:w-1/6">
@@ -29,15 +37,47 @@ export const OrderItemCard: FC<Props> = ({ item }) => {
         <p className="text-sm mt-2 font-bold text-gray-700">
           Total: {currency.format(item.precio * item.cantidad)}
         </p>
+        {isEditando && (
+          <div className="flex justify-evenly">
+            <button
+              type="button"
+              onClick={() => {
+                if (cantidad === 1) return;
+                setCantidad(cantidad - 1);
+              }}
+              className="text-xl font-bold"
+            >
+              <AiOutlineMinusCircle />
+            </button>
+            <p className="text-xl font-bold">{cantidad}</p>
+            <button
+              type="button"
+              onClick={() => setCantidad(cantidad + 1)}
+              className="text-xl font-bold"
+            >
+              <AiOutlinePlusCircle />
+            </button>
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-5">
-        <button
-          type="button"
-          className="bg-[#000300] flex px-5 py-2 text-white rounded-md font-bold uppercase shadow-md w-full lg:w-auto items-center gap-2 border border-black"
-        >
-          {' '}
-          <BiEdit /> Editar
-        </button>
+        {!isEditando ? (
+          <button
+            type="button"
+            onClick={() => setEditando()}
+            className="bg-[#000300] flex px-5 py-2 text-white rounded-md font-bold uppercase shadow-md w-full lg:w-auto items-center gap-2 border border-black"
+          >
+            <BiEdit /> Editar
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onSave}
+            className="bg-blue-700 flex px-5 py-2 text-white rounded-md font-bold uppercase shadow-md w-full lg:w-auto items-center gap-2 border border-black"
+          >
+            <BiSave /> Guardar
+          </button>
+        )}
         <button
           type="button"
           className="bg-[#ff0000] flex px-5 py-2 text-white rounded-md font-bold uppercase shadow-md w-full lg:w-auto items-center gap-2 border border-black"
