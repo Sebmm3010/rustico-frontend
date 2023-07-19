@@ -23,9 +23,6 @@ export const Navbar = () => {
         <Link href="/resumen" className="hover:underline">
           Resumen
         </Link>
-        <Link href="/total" className="hover:underline">
-          Total
-        </Link>
       </ul>
       <div className="flex items-center gap-1 my-1">
         <form onSubmit={(e) => handleSearch(e)}>
