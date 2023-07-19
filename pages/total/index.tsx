@@ -1,9 +1,7 @@
-import rusticoApi from '@/apis/rusitcoApi';
+import { useForm } from 'react-hook-form';
 import { MainLayout } from '@/components/layouts';
 import { useAppContext } from '@/hooks';
 import { currency } from '@/utils';
-import React from 'react';
-import { useForm } from 'react-hook-form';
 
 interface FormData {
   mesa: string;
@@ -11,15 +9,16 @@ interface FormData {
 }
 
 const TotalPage = () => {
-  const { actualOrder, orderItems, handleOrdenFinal, user } = useAppContext();
-  const { register, handleSubmit } = useForm<FormData>();
+  const { actualOrder, orderItems, handleOrdenFinal, toogleOrderModal } =
+    useAppContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormData>();
   const onSubmit = ({ mesa, nota }: FormData) => {
     handleOrdenFinal(mesa, nota);
-    // await rusticoApi.post('/orders', actualOrder, {
-    //   headers: {
-    //     Authorization: `Bearer ${user?.token}`
-    //   }
-    // });
+    toogleOrderModal();
   };
   return (
     <MainLayout
@@ -27,7 +26,7 @@ const TotalPage = () => {
       description="Resumen de ordenes"
     >
       <h1 className="text-4xl text-white font-bold">Confirmar y total</h1>
-      <p className="text-xl text-white my-9">Confiormar orden</p>
+      <p className="text-xl text-white my-9">Confirmar orden</p>
       {orderItems.length === 0 ? (
         <p className="text-center text-2xl text-white">
           No hay elementos en la orden
@@ -37,7 +36,7 @@ const TotalPage = () => {
           className="bg-gray-100 p-3 rounded-lg"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div>
+          <div className="flex flex-col">
             <label
               htmlFor="mesa"
               className="block uppercase text-slate-800 font-bold text-xl"
@@ -46,7 +45,7 @@ const TotalPage = () => {
             </label>
             <input
               {...register('mesa', {
-                required: 'Mesa es obligatorio',
+                required: 'El número de mesa es obligatorio',
                 pattern: {
                   value: /^[0-9]+$/,
                   message: 'Ingrese solo números'
@@ -54,9 +53,16 @@ const TotalPage = () => {
               })}
               id="mesa"
               type="number"
-              className="bg-gray-300 border border-black w-full mt-3 lg:w-1/3 p-2 rounded-lg"
+              className={`bg-gray-300 border ${
+                errors.mesa ? 'border-red-600' : 'border-black'
+              } w-full mt-3 lg:w-1/3 p-2 rounded-lg`}
               placeholder="Numero de mesa"
             />
+            {errors.mesa && (
+              <span className="text-xs my-2 text-red-600 font-bold">
+                El numero de mesa es obligatorio
+              </span>
+            )}
           </div>
           <div>
             <label
