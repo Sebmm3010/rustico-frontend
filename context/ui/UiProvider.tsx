@@ -5,10 +5,12 @@ export interface UiState {
   showModal: boolean;
   showUserMenu: boolean;
   actualCategory: string;
+  orderModal: boolean;
 }
 
 const Ui_INITIAL_STATE: UiState = {
   showModal: false,
+  orderModal: false,
   showUserMenu: false,
   actualCategory: 'home'
 };
@@ -29,12 +31,16 @@ export const UiProvider: FC<Props> = ({ children }) => {
   const setShowUserMenu = (payload: boolean) => {
     dispatch({ type: '[Ui] - setShowUserMenu', payload });
   };
+  const toogleOrderModal = () => {
+    dispatch({ type: '[Ui] - toogleOrderModal' });
+  };
   return (
     <UiContext.Provider
       value={{
         ...state,
         // *Metodos
         toogleModal,
+        toogleOrderModal,
         setActualCategory,
         setShowUserMenu
       }}

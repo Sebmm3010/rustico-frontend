@@ -35,7 +35,6 @@ const LoginPage = () => {
   }, [logError]);
 
   const handleLogin = async ({ userName, password }: FormData) => {
-    // console.log({ userName, password });
     const login = await loginUser(userName, password);
     if (login) {
       router.push('/');

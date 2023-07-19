@@ -2,6 +2,7 @@ import { UiState } from './';
 
 type UiActionType =
   | { type: '[Ui] - toogleModal' }
+  | { type: '[Ui] - toogleOrderModal' }
   | { type: '[Ui] - setActualCategory'; payload: string }
   | { type: '[Ui] - setShowUserMenu'; payload: boolean };
 export const uiReducer = (state: UiState, action: UiActionType): UiState => {
@@ -10,6 +11,11 @@ export const uiReducer = (state: UiState, action: UiActionType): UiState => {
       return {
         ...state,
         showModal: !state.showModal
+      };
+    case '[Ui] - toogleOrderModal':
+      return {
+        ...state,
+        orderModal: !state.orderModal
       };
     case '[Ui] - setActualCategory':
       return {
@@ -21,6 +27,7 @@ export const uiReducer = (state: UiState, action: UiActionType): UiState => {
         ...state,
         showUserMenu: action.payload
       };
+
     default:
       return state;
   }
