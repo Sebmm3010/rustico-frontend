@@ -7,12 +7,16 @@ type OrdersActionType =
       payload: IProduct;
     }
   | {
-      type: '[Orders]- Ordern actual';
+      type: '[Orders] - settear Orden actual';
       payload: IOrder;
     }
   | {
       type: '[Orders]- Actualizar order items';
       payload: OrderItem[];
+    }
+  | {
+      type: '[Orders] - Resetear estado';
+      payload: OrdersState;
     };
 
 export const ordersReducer = (
@@ -30,10 +34,17 @@ export const ordersReducer = (
         ...state,
         orderItems: action.payload
       };
-    case '[Orders]- Ordern actual':
+    case '[Orders] - settear Orden actual':
       return {
         ...state,
         actualOrder: action.payload
+      };
+    case '[Orders] - Resetear estado':
+      return {
+        ...state,
+        actualOrder: action.payload.actualOrder,
+        orderItems: action.payload.orderItems,
+        selectedProduct: action.payload.selectedProduct
       };
     default:
       return state;

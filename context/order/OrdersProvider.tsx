@@ -32,7 +32,7 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
       orderSubTotal,
       total
     };
-    dispatch({ type: '[Orders]- Ordern actual', payload: orden });
+    dispatch({ type: '[Orders] - settear Orden actual', payload: orden });
   }, [state.orderItems]);
 
   // ? Productro actual en el modal
@@ -92,11 +92,25 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
     });
   };
 
-  const handleOrdenFinal = (mesa: string, nota?: string) => {
-    const ordenFinal = { ...state.actualOrder, mesa, nota };
+  const handleOrdenFinal = (mesa: string, nota: string) => {
+    let ordenFinal = { ...state.actualOrder, mesa };
+    if (nota.length > 3) {
+      ordenFinal = { ...ordenFinal, nota };
+    }
     dispatch({
-      type: '[Orders]- Ordern actual',
+      type: '[Orders] - settear Orden actual',
       payload: ordenFinal as IOrder
+    });
+  };
+  const reset = () => {
+    const resetOrder: OrdersState = {
+      selectedProduct: null,
+      actualOrder: null,
+      orderItems: []
+    };
+    dispatch({
+      type: '[Orders] - Resetear estado',
+      payload: resetOrder
     });
   };
   return (
@@ -108,7 +122,8 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
         handleAgregarProducto,
         handleEditarCantidad,
         handleEliminarProducto,
-        handleOrdenFinal
+        handleOrdenFinal,
+        reset
       }}
     >
       {children}
