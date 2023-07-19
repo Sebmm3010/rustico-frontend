@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { ProductModal } from '../products';
 import { Navbar, Sidebar } from '../ui';
 import { useAppContext } from '@/hooks';
+import { OrderModal } from '../orders';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,7 +29,7 @@ const customStyles = {
 Modal.setAppElement('#__next');
 
 export const MainLayout: FC<Props> = ({ title, description, children }) => {
-  const { showModal } = useAppContext();
+  const { showModal, orderModal } = useAppContext();
   return (
     <>
       <Head>
@@ -56,6 +57,11 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
       {showModal && (
         <Modal isOpen={showModal} style={customStyles}>
           <ProductModal />
+        </Modal>
+      )}
+      {orderModal && (
+        <Modal isOpen={orderModal} style={customStyles}>
+          <OrderModal />
         </Modal>
       )}
     </>
