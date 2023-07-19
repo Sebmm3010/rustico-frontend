@@ -74,7 +74,11 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
   const handleEditarCantidad = (newCantidad: number, id: string) => {
     const editedOrderItems = state.orderItems.map((item) => {
       if (item.id === id) {
-        return { ...item, cantidad: newCantidad };
+        return {
+          ...item,
+          cantidad: newCantidad,
+          subTotal: newCantidad * item.precio
+        };
       } else {
         return item;
       }
