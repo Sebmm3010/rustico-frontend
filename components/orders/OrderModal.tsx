@@ -1,10 +1,16 @@
+import rusticoApi from '@/apis/rusitcoApi';
 import { useAppContext } from '@/hooks';
 
 export const OrderModal = () => {
-  const { toogleOrderModal, actualOrder } = useAppContext();
-  const handleConfirm = () => {
-    console.log(actualOrder);
+  const { toogleOrderModal, actualOrder, user, reset } = useAppContext();
+  const handleConfirm = async () => {
+    await rusticoApi.post('/orders', actualOrder, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`
+      }
+    });
     toogleOrderModal();
+    reset();
   };
   return (
     <div className="h-44 w-64 flex flex-col items-center justify-evenly m-2">
