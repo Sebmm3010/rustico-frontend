@@ -52,7 +52,7 @@ const LoginPage = () => {
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
           <div className="bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl border-2 border-black">
-            <div className="md:w-3/5 p-5 w-full">
+            <div className="md:w-4/5 p-5 w-full">
               <div className="text-left font-bold">
                 <span className="text-red-950">Mr. Rustico</span>
               </div>
@@ -143,7 +143,7 @@ const LoginPage = () => {
                 </form>
               </div>
             </div>
-            <div className="md:w-2/5 hidden md:block bg-yellow-300 text-red-950 rounded-tr-2xl rounded-br-2xl py-36 px-12">
+            <div className="md:w-4/5 hidden md:block bg-yellow-300 text-red-950 rounded-tr-2xl rounded-br-2xl py-36 px-12">
               <h2 className="text-3xl font-bold mb-2">Hola, bienvenido!</h2>
               <div className="border-2 w-10 border-red-950 inline-block mb-2 rounded-xl"></div>
               <p className="text-black mb-2 font-semibold">
