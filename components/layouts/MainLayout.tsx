@@ -35,7 +35,7 @@ export const MainLayout: FC<Props> = ({ title, description, children }) => {
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <meta name="author" content="Sebastian Madero" />
+        <meta name="author" content="@Sebmm3010" />
       </Head>
       <div className="md:flex h-full">
         {/* SideBar */}
