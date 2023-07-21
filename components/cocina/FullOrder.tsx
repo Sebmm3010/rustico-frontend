@@ -1,5 +1,8 @@
+import rusticoApi from '@/apis/rusitcoApi';
+import { useAppContext } from '@/hooks';
 import { IFullOrder } from '@/interfaces';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 interface Props {
@@ -7,11 +10,34 @@ interface Props {
 }
 
 export const FullOrder: FC<Props> = ({ order }) => {
-  const { mesa, user, nota, id, orderItems } = order;
+  const { user } = useAppContext();
+  const { mesa, user: userOrder, nota, id, orderItems } = order;
+  const router = useRouter();
+  const handleReady = async () => {
+    const { status } = await rusticoApi.put<IFullOrder>(
+      `/orders/${id}`,
+      { isReady: true },
+      {
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        }
+      }
+    );
+    if (status === 200) router.reload();
+  };
   return (
     <div className="border p-10 space-y-5 bg-gray-200 rounded-lg my-3">
-      <h1 className="text-2xl font-bold">Mesa: {mesa}</h1>
-      <p className="text-lg my-9">Mesero: {user.fullName}</p>
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold">Mesa: {mesa}</h1>
+        <button
+          type="button"
+          className="bg-red-600 text-white font-bold p-3 rounded-lg"
+          onClick={handleReady}
+        >
+          Finalizar
+        </button>
+      </div>
+      <p className="text-lg my-9 row-start-2">Mesero: {userOrder.fullName}</p>
       <div>
         {orderItems.map((item) => (
           <div

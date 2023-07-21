@@ -6,7 +6,6 @@ import React from 'react';
 
 const CocinaPage = () => {
   const { orders, isError, isLoading } = useOrders();
-  console.log(orders);
   return (
     <CocinaLayout
       title="Mr. Rustico - Cocina"
@@ -21,10 +20,7 @@ const CocinaPage = () => {
       ) : orders?.length === 0 ? (
         <h1 className="text-white">No hay ordenes pendientes</h1>
       ) : (
-        orders?.map(
-          (order) =>
-            !order.isReady && <FullOrder order={order} key={order.id} />
-        )
+        orders?.map((order) => <FullOrder order={order} key={order.id} />)
       )}
     </CocinaLayout>
   );
