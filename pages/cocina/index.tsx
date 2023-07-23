@@ -5,7 +5,7 @@ import { useOrders } from '@/hooks';
 import React from 'react';
 
 const CocinaPage = () => {
-  const { orders, isError, isLoading } = useOrders();
+  const { orders, isError, isLoading } = useOrders({ refreshInterval: 100 });
   return (
     <CocinaLayout
       title="Mr. Rustico - Cocina"

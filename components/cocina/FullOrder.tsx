@@ -1,9 +1,8 @@
-import rusticoApi from '@/apis/rusitcoApi';
+import { FC } from 'react';
+import Image from 'next/image';
 import { useAppContext } from '@/hooks';
 import { IFullOrder } from '@/interfaces';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { FC } from 'react';
+import rusticoApi from '@/apis/rusitcoApi';
 
 interface Props {
   order: IFullOrder;
@@ -12,9 +11,8 @@ interface Props {
 export const FullOrder: FC<Props> = ({ order }) => {
   const { user } = useAppContext();
   const { mesa, user: userOrder, nota, id, orderItems } = order;
-  const router = useRouter();
   const handleReady = async () => {
-    const { status } = await rusticoApi.put<IFullOrder>(
+    await rusticoApi.put<IFullOrder>(
       `/orders/${id}`,
       { isReady: true },
       {
@@ -23,7 +21,6 @@ export const FullOrder: FC<Props> = ({ order }) => {
         }
       }
     );
-    if (status === 200) router.reload();
   };
   return (
     <div className="border p-10 space-y-5 bg-gray-200 rounded-lg my-3">
