@@ -1,8 +1,7 @@
+import { useOrders } from '@/hooks';
 import { FullOrder } from '@/components/cocina';
 import { SecondLayout } from '@/components/layouts';
 import { CardSkeleton } from '@/components/ui';
-import { useOrders } from '@/hooks';
-import React from 'react';
 
 const CocinaPage = () => {
   const { orders, isError, isLoading } = useOrders({ refreshInterval: 100 });
