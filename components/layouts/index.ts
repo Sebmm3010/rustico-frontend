@@ -1,2 +1,2 @@
-export * from './CocinaLayout';
+export * from './SecondLayout';
 export * from './MainLayout';

@@ -1,5 +1,5 @@
 import { FullOrder } from '@/components/cocina';
-import { CocinaLayout } from '@/components/layouts';
+import { SecondLayout } from '@/components/layouts';
 import { CardSkeleton } from '@/components/ui';
 import { useOrders } from '@/hooks';
 import React from 'react';
@@ -7,7 +7,7 @@ import React from 'react';
 const CocinaPage = () => {
   const { orders, isError, isLoading } = useOrders({ refreshInterval: 100 });
   return (
-    <CocinaLayout
+    <SecondLayout
       title="Mr. Rustico - Cocina"
       description="Mr. Rustico pagina de cocina"
     >
@@ -22,7 +22,7 @@ const CocinaPage = () => {
       ) : (
         orders?.map((order) => <FullOrder order={order} key={order.id} />)
       )}
-    </CocinaLayout>
+    </SecondLayout>
   );
 };
 

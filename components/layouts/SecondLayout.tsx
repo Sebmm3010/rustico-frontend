@@ -8,7 +8,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const CocinaLayout: FC<Props> = ({ title, description, children }) => {
+export const SecondLayout: FC<Props> = ({ title, description, children }) => {
   return (
     <>
       <Head>
