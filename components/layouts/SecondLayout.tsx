@@ -21,7 +21,7 @@ export const SecondLayout: FC<Props> = ({ title, description, children }) => {
         <CocinaNavbar />
       </nav>
       <div>
-        <main className="h-screen overflow-y-scroll scrollbar-hide">
+        <main className="h-screen overflow-y-scroll hide-scrollbar">
           <div className="p-10">{children}</div>
         </main>
       </div>
