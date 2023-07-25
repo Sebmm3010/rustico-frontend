@@ -1,7 +1,7 @@
 import { IAdminUsers } from '@/interfaces';
 import { ColumnDef } from '@tanstack/react-table';
 
-export const columns: ColumnDef<IAdminUsers>[] = [
+export const usersColumns: ColumnDef<IAdminUsers>[] = [
   {
     accessorKey: 'id',
     header: 'Id'

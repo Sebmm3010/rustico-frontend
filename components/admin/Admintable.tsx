@@ -7,10 +7,6 @@ interface Props {
   columns: ColumnDef<IAdminUsers>[];
   data: any;
 }
-export const Admintable: FC<Props> = ({ columns, data }) => {
-  return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
-    </div>
-  );
+export const AdminTable: FC<Props> = ({ columns, data }) => {
+  return <DataTable columns={columns} data={data} />;
 };
