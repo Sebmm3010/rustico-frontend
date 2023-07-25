@@ -16,3 +16,11 @@ export enum ValidRoles {
   superUser = 'super-user',
   user = 'usesr'
 }
+
+export interface IAdminUsers {
+  id: string;
+  userName: string;
+  fullName: string;
+  isActive: boolean;
+  roles: string[];
+}
