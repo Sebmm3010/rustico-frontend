@@ -1,6 +1,11 @@
+import { getSession } from 'next-auth/react';
+
 import { BiSolidSortAlt, BiSolidDownArrow } from 'react-icons/bi';
+
 import { ColumnDef } from '@tanstack/react-table';
+
 import { IAdminUsers } from '@/interfaces';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +19,23 @@ import {
   TooltipTrigger
 } from '@/shadcnComponents';
 
+import { useAppContext } from '@/hooks';
+import rusticoApi from '@/apis/rusitcoApi';
+
+// const { user } = useAppContext();
+
+const actualizarUsuario = async (id: string, state: boolean) => {
+  const session = await getSession();
+  await rusticoApi.put(
+    `/admin/switch-active/${id}`,
+    { isActive: state },
+    {
+      headers: {
+        Authorization: `Bearer ${session?.user.token}`
+      }
+    }
+  );
+};
 export const usersColumns: ColumnDef<IAdminUsers>[] = [
   {
     accessorKey: 'id',
@@ -104,14 +126,22 @@ export const usersColumns: ColumnDef<IAdminUsers>[] = [
             <DropdownMenuLabel>Cambiar estado</DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => console.log('activo')}
+              disabled={user.isActive}
+              onClick={() => {
+                if (user.isActive) return;
+                actualizarUsuario(user.id, true);
+              }}
             >
               Activo
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => console.log('Inactivo')}
+              disabled={!user.isActive}
+              onClick={() => {
+                if (!user.isActive) return;
+                actualizarUsuario(user.id, false);
+              }}
             >
               Desactivar
             </DropdownMenuItem>
