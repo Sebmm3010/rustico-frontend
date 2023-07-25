@@ -42,7 +42,7 @@ export const Navbar = () => {
             {showUserMenu && <UserMenu />}
           </>
         ) : (
-          <Link className="ml-2" href="/auth/login">
+          <Link className="ml-2" href={`/auth/login?p=${router.asPath}`}>
             Iniciar
           </Link>
         )}

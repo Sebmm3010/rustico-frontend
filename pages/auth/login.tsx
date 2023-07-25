@@ -37,7 +37,7 @@ const LoginPage = () => {
   const handleLogin = async ({ userName, password }: FormData) => {
     const login = await loginUser(userName, password);
     if (login) {
-      router.push('/');
+      router.reload();
     } else {
       return;
     }
@@ -158,16 +158,22 @@ const LoginPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query
+}) => {
   const session = await getSession({ req });
+  const { p = '/' } = query;
   if (session) {
+    console.log(session);
     return {
       redirect: {
-        destination: '/',
+        destination: p.toString(),
         permanent: false
       }
     };
   }
+
   return {
     props: {}
   };
