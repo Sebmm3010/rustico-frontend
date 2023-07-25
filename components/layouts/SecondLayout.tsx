@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import Head from 'next/head';
-import { CocinaNavbar } from '../cocina';
+import { SecondNavbar } from '../ui';
 
 interface Props {
   title: string;
@@ -18,7 +18,7 @@ export const SecondLayout: FC<Props> = ({ title, description, children }) => {
       </Head>
       {/* Navbar aqui */}
       <nav>
-        <CocinaNavbar />
+        <SecondNavbar />
       </nav>
       <div>
         <main className="h-screen overflow-y-scroll hide-scrollbar">

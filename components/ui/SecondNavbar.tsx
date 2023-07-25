@@ -1,10 +1,10 @@
 import { BiUserCircle } from 'react-icons/bi';
 import { useAppContext } from '@/hooks';
 import Link from 'next/link';
-import { UserMenu } from '../ui';
+import { UserMenu } from '.';
 
-export const CocinaNavbar = () => {
-  const { user, isLogged, setShowUserMenu, showUserMenu } = useAppContext();
+export const SecondNavbar = () => {
+  const { isLogged, setShowUserMenu, showUserMenu } = useAppContext();
   return (
     <div className="bg-yellow-300 fixed top-0 left-0 right-0 p-3 shadow-sm shadow-gray-200">
       <div className="flex justify-around w-full gap-96">

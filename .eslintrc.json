@@ -48,6 +48,7 @@
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "no-useless-return": "off",
-        "@typescript-eslint/no-misused-promises": "off"
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/array-type":"off"
     }
 }
