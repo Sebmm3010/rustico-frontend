@@ -19,7 +19,6 @@ import {
   TooltipTrigger
 } from '@/shadcnComponents';
 
-import { useAppContext } from '@/hooks';
 import rusticoApi from '@/apis/rusitcoApi';
 
 // const { user } = useAppContext();
