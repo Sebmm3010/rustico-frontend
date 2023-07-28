@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { SecondLayout } from '@/components/layouts';
+import rusticoApi from '@/apis/rusitcoApi';
+import { useAppContext } from '@/hooks';
 
 interface FormData {
   fullName: string;
@@ -11,17 +13,24 @@ interface FormData {
 
 const NewUserPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { user } = useAppContext();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<FormData>({ defaultValues: { roles: ['user'] } });
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (form: FormData) => {
     const newUserInfo = {
-      ...data,
-      userName: data.userName.toLowerCase().replace(/\s/g, '')
+      ...form,
+      userName: form.userName.toLowerCase().replace(/\s/g, '')
     };
-    console.log(newUserInfo);
+
+    const data = await rusticoApi.post('/auth/register', newUserInfo, {
+      headers: {
+        Authorization: `Bearer ${user?.token}`
+      }
+    });
   };
   return (
     <SecondLayout
@@ -30,7 +39,8 @@ const NewUserPage = () => {
     >
       <h1 className="text-4xl text-white font-bold mt-5">Crear usuario</h1>
       <p className="text-xl text-white my-9">
-        La contraseña debe tener una mayúscula, una minúscula y un número.
+        La contraseña debe tener una mayúscula, una minúscula y un número, y
+        tener minimo 6 caracteres.
       </p>
       <div className="flex justify-center">
         <form
@@ -49,9 +59,16 @@ const NewUserPage = () => {
                 required: 'El nombre es obligatorio'
               })}
               id="fullName"
-              className={`bg-gray-300 border border-black w-full mt-3 p-2 rounded-lg`}
+              className={`bg-gray-300 border ${
+                !errors.fullName ? 'border-black' : 'border-red-600'
+              } w-full mt-3 p-2 rounded-lg`}
               placeholder="Juan hernandez Perea"
             />
+            {errors.fullName && (
+              <span className="text-xs text-red-600 mt-2">
+                {errors.fullName.message}
+              </span>
+            )}
           </div>
           <div className="flex flex-col">
             <label
@@ -65,28 +82,50 @@ const NewUserPage = () => {
                 required: 'Nombre de usuario obligatorio'
               })}
               id="useName"
-              className={`bg-gray-300 border border-black w-full mt-3 p-2 rounded-lg`}
+              className={`bg-gray-300 border ${
+                !errors.userName ? 'border-black' : 'border-red-600'
+              } w-full mt-3 p-2 rounded-lg`}
               placeholder="jhernandezp"
             />
-            <div className="flex flex-col">
-              <label
-                htmlFor="password"
-                className="block text-slate-800 font-bold text-xl"
-              >
-                Contraseña
-              </label>
-              <input
-                {...register('password', {
-                  required: 'La contraseña es obligatoria'
-                })}
-                type={showPassword ? 'text' : 'password'}
-                className={`bg-gray-300 border border-black w-full mt-3 p-2 rounded-lg`}
-                placeholder="Contraseña"
-              />
-            </div>
-
-            {/* Checkbox */}
+            {errors.userName && (
+              <span className="text-xs text-red-600 mt-2">
+                {errors.userName.message}
+              </span>
+            )}
           </div>
+          <div className="flex flex-col">
+            <label
+              htmlFor="password"
+              className="block text-slate-800 font-bold text-xl"
+            >
+              Contraseña
+            </label>
+            <input
+              {...register('password', {
+                required: 'La contraseña es obligatoria',
+                minLength: {
+                  value: 6,
+                  message: 'La contraseña debe tener minimo 6 caracteres'
+                },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                  message:
+                    'La contraseña debe tener minimo una minuscula, una mayuscula y un número'
+                }
+              })}
+              type={showPassword ? 'text' : 'password'}
+              className={`bg-gray-300 border ${
+                !errors.password ? 'border-black' : 'border-red-600'
+              } w-full mt-3 p-2 rounded-lg`}
+              placeholder="Contraseña"
+            />
+            {errors.password && (
+              <span className="text-xs text-red-600 mt-2">
+                {errors.password.message}
+              </span>
+            )}
+          </div>
+          {/* Checkbox */}
           <div className="flex flex-col mr-20">
             <h1 className="block text-slate-800 font-bold text-xl">Rol</h1>
             <div className="flex gap-2">
