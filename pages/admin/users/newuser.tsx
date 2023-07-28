@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { SecondLayout } from '@/components/layouts';
 import rusticoApi from '@/apis/rusitcoApi';
 import { useAppContext } from '@/hooks';
+import { AiOutlineClose } from 'react-icons/ai';
 
 interface FormData {
   fullName: string;
@@ -13,6 +14,11 @@ interface FormData {
 
 const NewUserPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isSavingUser, setIsSavingUser] = useState<{
+    userName: string;
+    error: boolean;
+    msg: string;
+  }>({ userName: '', error: false, msg: '' });
   const { user } = useAppContext();
   const {
     register,
@@ -26,12 +32,26 @@ const NewUserPage = () => {
       userName: form.userName.toLowerCase().replace(/\s/g, '')
     };
 
-    const data = await rusticoApi.post('/auth/register', newUserInfo, {
-      headers: {
-        Authorization: `Bearer ${user?.token}`
-      }
-    });
+    await rusticoApi
+      .post('/auth/register', newUserInfo, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        }
+      })
+      .then(({ data }) => {
+        setIsSavingUser({ userName: data.userName, error: false, msg: '' });
+        reset();
+      })
+      .catch(({ response }) => {
+        setIsSavingUser({
+          userName: '',
+          error: true,
+          msg: response.data.message
+        });
+        console.log({ error: response.status, msg: response.data.message });
+      });
   };
+
   return (
     <SecondLayout
       title="Administracion - Crear usuario"
@@ -47,6 +67,34 @@ const NewUserPage = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="shadow p-5 mb-3 bg-gray-100 flex gap-5 items-center rounded-lg min-w-[20%] flex-col"
         >
+          {/* Chips de validar guardado */}
+          {isSavingUser.userName.length !== 0 && (
+            <div className="w-full bg-green-700 flex justify-between p-3 rounded-lg text-white">
+              <p className="font-bold">
+                Usuario {isSavingUser.userName} guardado
+              </p>
+              <AiOutlineClose
+                onClick={() =>
+                  setIsSavingUser({ userName: '', error: false, msg: '' })
+                }
+                className="cursor-pointer"
+              />
+            </div>
+          )}
+
+          {isSavingUser?.error && (
+            <div className="w-full bg-red-600 flex justify-between p-3 rounded-lg text-white">
+              <div>
+                <p className="font-bold">Error: {isSavingUser.msg}</p>
+              </div>
+              <AiOutlineClose
+                onClick={() =>
+                  setIsSavingUser({ userName: '', error: false, msg: '' })
+                }
+                className="cursor-pointer"
+              />
+            </div>
+          )}
           <div className="flex flex-col">
             <label
               htmlFor="fullName"
@@ -168,7 +216,7 @@ const NewUserPage = () => {
           <input
             type="submit"
             value="Crear usuario"
-            className="bg-red-950 text-white font-bold border-black p-3 rounded-lg"
+            className="bg-red-950 text-white font-bold border-black p-3 rounded-lg cursor-pointer"
           />
         </form>
       </div>
