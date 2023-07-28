@@ -10,6 +10,8 @@ const AdminUsersPage = () => {
     <SecondLayout
       title="Administracion - Usuarios"
       description="Dashboard administrativa de usuarios"
+      navLink="/admin/users"
+      navTitle="Administracion"
     >
       {isLoading ? (
         <h1 className="m-auto text-white">Cargando...</h1>

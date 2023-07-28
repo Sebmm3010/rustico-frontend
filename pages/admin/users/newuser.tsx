@@ -56,6 +56,8 @@ const NewUserPage = () => {
     <SecondLayout
       title="Administracion - Crear usuario"
       description="Pagina de creacion de nuevos usarios"
+      navLink="/admin/users"
+      navTitle="Administracion"
     >
       <h1 className="text-4xl text-white font-bold mt-5">Crear usuario</h1>
       <p className="text-xl text-white my-9">

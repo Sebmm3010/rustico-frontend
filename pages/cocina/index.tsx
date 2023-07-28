@@ -9,6 +9,8 @@ const CocinaPage = () => {
     <SecondLayout
       title="Mr. Rustico - Cocina"
       description="Mr. Rustico pagina de cocina"
+      navLink="/cocina"
+      navTitle="Mr. Rustico - Cocina"
     >
       <h1 className="text-4xl text-white font-bold mt-5">Cocina</h1>
       <p className="text-xl text-white my-9">Revisar ordenes</p>

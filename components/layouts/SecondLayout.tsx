@@ -6,9 +6,17 @@ interface Props {
   title: string;
   description: string;
   children: ReactNode;
+  navTitle: string;
+  navLink: string;
 }
 
-export const SecondLayout: FC<Props> = ({ title, description, children }) => {
+export const SecondLayout: FC<Props> = ({
+  title,
+  description,
+  children,
+  navLink,
+  navTitle
+}) => {
   return (
     <>
       <Head>
@@ -18,7 +26,7 @@ export const SecondLayout: FC<Props> = ({ title, description, children }) => {
       </Head>
       {/* Navbar aqui */}
       <nav>
-        <SecondNavbar />
+        <SecondNavbar navLink={navLink} navTitle={navTitle} />
       </nav>
       <div>
         <main className="h-screen overflow-y-scroll hide-scrollbar">
