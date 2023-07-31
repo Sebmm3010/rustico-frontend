@@ -4,8 +4,6 @@ import { BiSolidSortAlt, BiSolidDownArrow } from 'react-icons/bi';
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { IAdminUsers } from '@/interfaces';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +19,7 @@ import {
 
 import rusticoApi from '@/apis/rusitcoApi';
 
-// const { user } = useAppContext();
+import { IAdminUsers } from '@/interfaces';
 
 const actualizarUsuario = async (id: string, state: boolean) => {
   const session = await getSession();
