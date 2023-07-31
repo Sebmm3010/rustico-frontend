@@ -17,15 +17,11 @@ const AdminUsersPage = () => {
         <h1 className="m-auto text-white">Cargando...</h1>
       ) : (
         <div className="container mx-auto py-10 rounded-lg">
-          <div className="flex justify-end">
-            <button
-              onClick={() => router.push('/admin/users/newuser')}
-              className="bg-blue-600 text-white font-bold px-3 rounded-lg my-2"
-            >
-              + Nuevo usuario
-            </button>
-          </div>
-          <DataTable data={data} columns={usersColumns} />
+          <DataTable
+            data={data}
+            columns={usersColumns}
+            place="/admin/users/newuser"
+          />
         </div>
       )}
     </SecondLayout>

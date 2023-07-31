@@ -1,8 +1,10 @@
+import { DataTable, productsColumns } from '@/components/admin';
 import { SecondLayout } from '@/components/layouts';
 import { useAdminData, useProducts } from '@/hooks';
+import { IProduct } from '@/interfaces';
 
 const ProductsAdminPage = () => {
-  const { products, isLoading } = useProducts();
+  const { products, isLoading } = useProducts('products');
   return (
     <SecondLayout
       title="Administracion - Productos"
@@ -10,7 +12,17 @@ const ProductsAdminPage = () => {
       navLink="/admin/products"
       navTitle="Administracion"
     >
-      <h1>Hola</h1>
+      {isLoading ? (
+        <h1 className="m-auto text-white">Cargando...</h1>
+      ) : (
+        <div className="container mx-auto py-10 rounded-lg">
+          <DataTable
+            data={products as IProduct[]}
+            columns={productsColumns}
+            place="products"
+          />
+        </div>
+      )}
     </SecondLayout>
   );
 };
