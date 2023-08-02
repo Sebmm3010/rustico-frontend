@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-import { BiSolidSortAlt, BiSolidDownArrow, BiEdit } from 'react-icons/bi';
+import { BiEdit } from 'react-icons/bi';
 
 import {
   DropdownMenu,
@@ -17,15 +17,22 @@ import {
 
 import { IProduct } from '@/interfaces';
 import { currency } from '@/utils';
+import Link from 'next/link';
 
 export const productsColumns: ColumnDef<IProduct>[] = [
   {
     id: 'edit',
-    cell: ({ row }) => (
-      <button>
-        <BiEdit />
-      </button>
-    )
+    cell: ({ row }) => {
+      const prod = row.original;
+      return (
+        <Link
+          href={`products/edit/${prod.slug}`}
+          className="text-xl hover:underline"
+        >
+          <BiEdit />
+        </Link>
+      );
+    }
   },
   {
     accessorKey: 'titulo',
