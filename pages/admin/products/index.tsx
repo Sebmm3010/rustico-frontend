@@ -19,7 +19,7 @@ const ProductsAdminPage = () => {
           <DataTable
             data={products as IProduct[]}
             columns={productsColumns}
-            place="products"
+            place="products/edit/newProduct"
           />
         </div>
       )}
