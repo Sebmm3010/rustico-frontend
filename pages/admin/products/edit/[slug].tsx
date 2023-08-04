@@ -1,12 +1,14 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { BiEdit, BiSave } from 'react-icons/bi';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { SecondLayout } from '@/components/layouts';
 import { IProduct } from '@/interfaces';
+import rusticoApi from '@/apis/rusitcoApi';
 
 interface FormData {
+  id?: string;
   titulo: string;
   precio: number;
   descripcion: string;
@@ -21,7 +23,14 @@ interface Props {
 }
 
 const EditProducts: NextPage<Props> = ({ product }) => {
-  const { register, handleSubmit } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormData>({
+    defaultValues: product
+  });
+
   const onSubmit = (data: FormData) => {
     const formData = { ...data, inStock: Boolean(data.inStock) };
     console.log({ formData });
@@ -47,38 +56,73 @@ const EditProducts: NextPage<Props> = ({ product }) => {
             <BiSave className="text-xl" /> Guardar
           </button>
         </div>
-        <div className="grid grid-cols-2 grid-rows-1 gap-2">
+        <div className="grid grid-cols-2 grid-rows-1 gap-2 gap-x-3">
           {/* Inputs principales */}
           <input
             type="text"
-            className="col-start-1 p-3 rounded-md my-2 border-b-gray-500 border-4"
+            className={`col-start-1 p-3 rounded-md my- border-4 ${
+              errors.titulo
+                ? 'border-b-red-600 placeholder-red-600'
+                : 'border-b-gray-500'
+            }`}
             placeholder="Titulo"
-            {...register('titulo')}
+            {...register('titulo', { required: 'El titulo es obligatorio' })}
           />
+          {errors.titulo && (
+            <span className="text-red-600 text-xs">
+              {errors.titulo.message}
+            </span>
+          )}
           <input
             type="number"
-            className="col-start-1 p-3 rounded-md my-2 border-b-gray-500 border-4"
+            className={`col-start-1 p-3 rounded-md my-2 border-4 ${
+              errors.precio
+                ? 'border-b-red-600 placeholder-red-600'
+                : 'border-b-gray-500'
+            }`}
             placeholder="Precio"
-            {...register('precio')}
+            {...register('precio', {
+              required: 'El precio es obligatorio',
+              pattern: {
+                value: /^[1-9]\d*$/,
+                message: 'Solo se aceptan números positivos'
+              }
+            })}
           />
+          {errors.precio && (
+            <span className="text-red-600 text-xs">
+              {errors.precio.message}
+            </span>
+          )}
           <textarea
             className="col-start-1 p-3 rounded-md my-2 border-b-gray-500 border-4"
             placeholder="Descripcion"
-            {...register('descripcion')}
+            {...register('descripcion', {
+              required: 'La descripcion es obligatoria'
+            })}
           />
+          {errors.descripcion && (
+            <span className="text-red-600 text-xs">
+              {errors.descripcion.message}
+            </span>
+          )}
 
           <div className="col-start-1">
             <label
               htmlFor="categoria"
-              className="block mb-2 text-sm font-medium text-white"
+              className={`block mb-2 text-sm font-medium ${
+                errors.categoria ? 'text-red-600' : 'text-white'
+              }`}
             >
               Seleccionar Categoria
             </label>
             {/* Seleccionar categoria */}
             <select
-              {...register('categoria')}
+              {...register('categoria', {
+                required: 'Seleccione una categoria'
+              })}
               id="categoria"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             >
               <option value="">-- Seleccionar -- </option>
               <option value="desayuno">Desayuno</option>
@@ -90,6 +134,11 @@ const EditProducts: NextPage<Props> = ({ product }) => {
               <option value="familiar">Familiar</option>
               <option value="bebida">Bebida</option>
             </select>
+            {errors.categoria && (
+              <span className="text-red-600 text-xs">
+                {errors.categoria.message}
+              </span>
+            )}
           </div>
           {/* In stock */}
           <div className="col-start-1 row-start-2 text-white">
@@ -128,12 +177,26 @@ const EditProducts: NextPage<Props> = ({ product }) => {
           </div>
 
           {/* Segundo grid  */}
-          <input
-            type="text"
-            className="col-start-2 row-start-1 p-3 rounded-md my-2 border-b-gray-500 border-4"
-            placeholder="Slug - URL"
-            {...register('slug')}
-          />
+          <div className="col-start-2 row-start-1 w-full">
+            <input
+              type="text"
+              className="p-3 rounded-md my-2 border-b-gray-500 border-4 w-full"
+              placeholder="Slug - URL"
+              {...register('slug', {
+                required: 'Este campo es obligatorio',
+                validate: (val) =>
+                  val.trim().includes(' ')
+                    ? 'Sin espacios en blanco'
+                    : undefined
+              })}
+            />
+            {errors.slug && (
+              <span className="text-red-600 text-xs">
+                {errors.slug.message}
+              </span>
+            )}
+          </div>
+
           <div className="col-start-2 row-start-2">
             <input
               type="text"
@@ -169,6 +232,27 @@ const EditProducts: NextPage<Props> = ({ product }) => {
       </form>
     </SecondLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const { slug = '' } = query;
+
+  const { data } = await rusticoApi.get(`/products/${slug.toString()}`);
+  console.log(data);
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/admin/products',
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: {
+      product: data
+    }
+  };
 };
 
 export default EditProducts;

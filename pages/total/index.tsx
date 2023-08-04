@@ -47,7 +47,7 @@ const TotalPage = () => {
               {...register('mesa', {
                 required: 'El número de mesa es obligatorio',
                 pattern: {
-                  value: /^[0-9]+$/,
+                  value: /^[1-9]\d*$/,
                   message: 'Ingrese solo números'
                 }
               })}
