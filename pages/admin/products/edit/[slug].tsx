@@ -15,7 +15,7 @@ interface FormData {
   tags: string[];
   imagen: string;
   slug: string;
-  inStock: boolean;
+  inStock: boolean | string;
   categoria: string;
 }
 interface Props {
@@ -31,9 +31,11 @@ const EditProducts: NextPage<Props> = ({ product }) => {
     defaultValues: product
   });
 
-  const onSubmit = (data: FormData) => {
-    const formData = { ...data, inStock: Boolean(data.inStock) };
-    console.log({ formData });
+  const onSubmit = async (data: FormData) => {
+    const formData = {
+      ...data,
+      inStock: JSON.parse(data.inStock as string)
+    };
   };
 
   return (
@@ -142,38 +144,14 @@ const EditProducts: NextPage<Props> = ({ product }) => {
           </div>
           {/* In stock */}
           <div className="col-start-1 row-start-2 text-white">
-            <h3 className="mb-2 font-semibold">Disponibilidad</h3>
-            <div className="flex items-center mb-4 colum">
-              <input
-                id="default-radio-1"
-                type="radio"
-                value="true"
-                className="w-4 h-4"
-                {...register('inStock')}
-              />
-              <label
-                htmlFor="default-radio-1"
-                className="ml-2 text-sm font-medium"
-              >
-                Disponible
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                checked
-                id="default-radio-2"
-                type="radio"
-                value="false"
-                className="w-4 h-4"
-                {...register('inStock')}
-              />
-              <label
-                htmlFor="default-radio-2"
-                className="ml-2 text-sm font-medium"
-              >
-                No dispobible
-              </label>
-            </div>
+            <select
+              {...register('inStock')}
+              id="inStock"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+            >
+              <option value="true">Disponible</option>
+              <option value="false">No disponible</option>
+            </select>
           </div>
 
           {/* Segundo grid  */}
@@ -237,9 +215,10 @@ const EditProducts: NextPage<Props> = ({ product }) => {
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { slug = '' } = query;
 
-  const { data } = await rusticoApi.get(`/products/${slug.toString()}`);
-  console.log(data);
-  if (!data) {
+  const rusticoData = await rusticoApi
+    .get(`/products/${slug.toString()}`)
+    .catch(() => false);
+  if (!rusticoData) {
     return {
       redirect: {
         destination: '/admin/products',
@@ -247,7 +226,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       }
     };
   }
-
+  const { data } = rusticoData as any;
   return {
     props: {
       product: data
