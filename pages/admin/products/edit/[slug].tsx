@@ -1,11 +1,12 @@
+import { useEffect } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { BiEdit, BiSave } from 'react-icons/bi';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { SecondLayout } from '@/components/layouts';
-import { IProduct } from '@/interfaces';
 import rusticoApi from '@/apis/rusitcoApi';
+import { IProduct } from '@/interfaces';
 
 interface FormData {
   id?: string;
@@ -26,16 +27,36 @@ const EditProducts: NextPage<Props> = ({ product }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    watch,
+    setValue
   } = useForm<FormData>({
     defaultValues: product
   });
+
+  useEffect(() => {
+    const suscription = watch((value, { name, type }) => {
+      console.log({ value, name, type });
+      if (name === 'titulo') {
+        const newSlug =
+          value.titulo
+            ?.trim()
+            .replaceAll(' ', '-')
+            .replaceAll("'", '')
+            .toLowerCase() || '';
+
+        setValue('slug', newSlug);
+      }
+    });
+    return () => suscription.unsubscribe();
+  }, [watch, setValue]);
 
   const onSubmit = async (data: FormData) => {
     const formData = {
       ...data,
       inStock: JSON.parse(data.inStock as string)
     };
+    console.log({ formData });
   };
 
   return (
@@ -186,10 +207,15 @@ const EditProducts: NextPage<Props> = ({ product }) => {
             </span>
           </div>
           <div className="text-white col-start-2 row-start-3 flex items-start gap-2">
-            <span className="rounded-lg bg-red-950 p-2 flex items-center">
-              pan
-              <AiFillCloseCircle className="ml-2" />
-            </span>
+            {product.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-lg bg-red-950 p-2 flex items-center"
+              >
+                {tag}
+                <AiFillCloseCircle className="ml-2 cursor-pointer" />
+              </span>
+            ))}
           </div>
           <div className="col-start-2 row-start-4 flex flex-col">
             <input type="file" className="mb-2" />
