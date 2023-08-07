@@ -7,6 +7,8 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { SecondLayout } from '@/components/layouts';
 import rusticoApi from '@/apis/rusitcoApi';
 import { IProduct } from '@/interfaces';
+import { rusitcoApi } from '@/apis';
+import { useAppContext } from '@/hooks';
 
 interface FormData {
   id?: string;
@@ -25,6 +27,8 @@ interface Props {
 
 const EditProducts: NextPage<Props> = ({ product }) => {
   const [newTagValue, setNewTagValue] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -35,10 +39,11 @@ const EditProducts: NextPage<Props> = ({ product }) => {
   } = useForm<FormData>({
     defaultValues: product
   });
+
+  const { user } = useAppContext();
   // Sugerencia de slug
   useEffect(() => {
     const suscription = watch((value, { name, type }) => {
-      console.log({ value, name, type });
       if (name === 'titulo') {
         const newSlug =
           value.titulo
@@ -68,12 +73,59 @@ const EditProducts: NextPage<Props> = ({ product }) => {
     const updatedTags = getValues('tags').filter((t) => t !== tag);
     setValue('tags', updatedTags, { shouldValidate: true });
   };
-  const onSubmit = async (data: FormData) => {
+
+  // ? Submit
+  const onSubmit = async ({
+    titulo,
+    precio,
+    descripcion,
+    tags,
+    imagen,
+    slug,
+    inStock,
+    categoria
+  }: FormData) => {
+    /* id?: string;
+  titulo: string;
+  precio: number;
+  descripcion: string;
+  tags: string[];
+  imagen: string;
+  slug: string;
+  inStock: boolean | string;
+  categoria: string; */
     const formData = {
-      ...data,
-      inStock: JSON.parse(data.inStock as string)
+      titulo,
+      precio: Number(precio),
+      descripcion,
+      tags,
+      imagen,
+      slug,
+      categoria,
+      inStock: JSON.parse(inStock as string)
     };
-    console.log({ formData });
+    if (formData.imagen.length === 0) return;
+    setIsSaving(true);
+    // console.log({ formData });
+    try {
+      const { data } = await rusitcoApi({
+        url: `/products/${product.id}`,
+        method: 'PUT',
+        data: formData,
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        }
+      });
+      console.log({ data });
+      if (!product.id) {
+        // Todo: Recargar navegador
+      } else {
+        setIsSaving(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -92,7 +144,10 @@ const EditProducts: NextPage<Props> = ({ product }) => {
       </p>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-end">
-          <button className="bg-blue-600 text-white font-bold p-3 rounded-md gap-2 my-2 flex justify-center items-center">
+          <button
+            className="bg-blue-600 text-white font-bold p-3 rounded-md gap-2 my-2 flex justify-center items-center"
+            disabled={isSaving}
+          >
             <BiSave className="text-xl" /> Guardar
           </button>
         </div>
