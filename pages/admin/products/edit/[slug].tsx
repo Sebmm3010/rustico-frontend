@@ -247,8 +247,8 @@ const EditProducts: NextPage<Props> = ({ product }) => {
             <div className="flex flex-col gap-2 items-start justify-start">
               <Image
                 className="border-black rounded-md border-2"
-                src="https://res.cloudinary.com/sebastianow/image/upload/v1684010639/rustico/bh0sy3i7ijpiwuhqaduf.webp"
-                alt="img"
+                src={getValues('imagen')}
+                alt={getValues('titulo')}
                 width={200}
                 height={300}
               />
