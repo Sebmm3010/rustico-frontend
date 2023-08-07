@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
@@ -24,16 +24,18 @@ interface Props {
 }
 
 const EditProducts: NextPage<Props> = ({ product }) => {
+  const [newTagValue, setNewTagValue] = useState('');
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    getValues,
     setValue
   } = useForm<FormData>({
     defaultValues: product
   });
-
+  // Sugerencia de slug
   useEffect(() => {
     const suscription = watch((value, { name, type }) => {
       console.log({ value, name, type });
@@ -50,7 +52,22 @@ const EditProducts: NextPage<Props> = ({ product }) => {
     });
     return () => suscription.unsubscribe();
   }, [watch, setValue]);
+  // ? Nueva etiqueta
+  const onNewTag = () => {
+    const newTag = newTagValue.trim().toLowerCase();
+    setNewTagValue('');
+    const currentTags = getValues('tags');
+    if (currentTags.includes(newTag)) {
+      return;
+    }
+    currentTags.push(newTag);
+  };
 
+  // ? Eliminar etiqueta
+  const onDeleteTag = (tag: string) => {
+    const updatedTags = getValues('tags').filter((t) => t !== tag);
+    setValue('tags', updatedTags, { shouldValidate: true });
+  };
   const onSubmit = async (data: FormData) => {
     const formData = {
       ...data,
@@ -201,19 +218,27 @@ const EditProducts: NextPage<Props> = ({ product }) => {
               type="text"
               className="p-3 rounded-md my-2 border-b-gray-500 border-4 w-full"
               placeholder="Etiquetas"
+              value={newTagValue}
+              onChange={({ target }) => setNewTagValue(target.value)}
+              onKeyDown={({ code }) =>
+                code === 'Space' ? onNewTag() : undefined
+              }
             />
             <span className="text-white text-xs">
               Presione [spacebar] para agregar
             </span>
           </div>
-          <div className="text-white col-start-2 row-start-3 flex items-start gap-2">
-            {product.tags.map((tag) => (
+          <div className="text-white col-start-2 row-start-3 flex flex-wrap items-start gap-2">
+            {getValues('tags').map((tag) => (
               <span
                 key={tag}
                 className="rounded-lg bg-red-950 p-2 flex items-center"
               >
                 {tag}
-                <AiFillCloseCircle className="ml-2 cursor-pointer" />
+                <AiFillCloseCircle
+                  className="ml-2 cursor-pointer"
+                  onClick={() => onDeleteTag(tag)}
+                />
               </span>
             ))}
           </div>
