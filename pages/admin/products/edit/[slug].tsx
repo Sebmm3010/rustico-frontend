@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { BiEdit, BiSave } from 'react-icons/bi';
@@ -26,6 +27,7 @@ interface Props {
 }
 
 const EditProducts: NextPage<Props> = ({ product }) => {
+  const router = useRouter();
   const [newTagValue, setNewTagValue] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -85,15 +87,6 @@ const EditProducts: NextPage<Props> = ({ product }) => {
     inStock,
     categoria
   }: FormData) => {
-    /* id?: string;
-  titulo: string;
-  precio: number;
-  descripcion: string;
-  tags: string[];
-  imagen: string;
-  slug: string;
-  inStock: boolean | string;
-  categoria: string; */
     const formData = {
       titulo,
       precio: Number(precio),
@@ -104,13 +97,15 @@ const EditProducts: NextPage<Props> = ({ product }) => {
       categoria,
       inStock: JSON.parse(inStock as string)
     };
-    if (formData.imagen.length === 0) return;
+    // if (formData.imagen.length === 0) return;
+
     setIsSaving(true);
-    // console.log({ formData });
+
+    console.log({ formData });
     try {
       const { data } = await rusitcoApi({
-        url: `/products/${product.id}`,
-        method: 'PUT',
+        url: `/products/${product.id || ''}`,
+        method: product.id ? 'PUT' : 'POST',
         data: formData,
         headers: {
           Authorization: `Bearer ${user?.token}`
@@ -119,6 +114,7 @@ const EditProducts: NextPage<Props> = ({ product }) => {
       console.log({ data });
       if (!product.id) {
         // Todo: Recargar navegador
+        router.replace(`/admin/products/edit/${formData.slug}`);
       } else {
         setIsSaving(false);
       }
@@ -140,7 +136,14 @@ const EditProducts: NextPage<Props> = ({ product }) => {
         <BiEdit /> Producto
       </h1>
       <p className="text-xl text-white my-9">
-        Editando: <span className="font-bold underline">Deditos de queso</span>
+        {product.titulo.length > 0 ? (
+          <>
+            Editando:{' '}
+            <span className="font-bold underline">{product.titulo}</span>
+          </>
+        ) : (
+          'Crear nuevo producto'
+        )}
       </p>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-end">
@@ -155,7 +158,7 @@ const EditProducts: NextPage<Props> = ({ product }) => {
           {/* Inputs principales */}
           <input
             type="text"
-            className={`col-start-1 p-3 rounded-md my- border-4 ${
+            className={`col-start-1 p-3 rounded-md my-2 border-4 ${
               errors.titulo
                 ? 'border-b-red-600 placeholder-red-600'
                 : 'border-b-gray-500'
@@ -284,20 +287,21 @@ const EditProducts: NextPage<Props> = ({ product }) => {
             </span>
           </div>
           <div className="text-white col-start-2 row-start-3 flex flex-wrap items-start gap-2">
-            {getValues('tags').map((tag) => (
-              <span
-                key={tag}
-                className="rounded-lg bg-red-950 p-2 flex items-center"
-              >
-                {tag}
-                <AiFillCloseCircle
-                  className="ml-2 cursor-pointer"
-                  onClick={() => onDeleteTag(tag)}
-                />
-              </span>
-            ))}
+            {getValues('tags').length > 0 &&
+              getValues('tags').map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-lg bg-red-950 p-2 flex items-center"
+                >
+                  {tag}
+                  <AiFillCloseCircle
+                    className="ml-2 cursor-pointer"
+                    onClick={() => onDeleteTag(tag)}
+                  />
+                </span>
+              ))}
           </div>
-          <div className="col-start-2 row-start-4 flex flex-col">
+          {/* <div className="col-start-2 row-start-4 flex flex-col">
             <input type="file" className="mb-2" />
             <div className="flex flex-col gap-2 items-start justify-start">
               <Image
@@ -311,7 +315,7 @@ const EditProducts: NextPage<Props> = ({ product }) => {
                 <AiFillCloseCircle /> Eliminar
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </form>
     </SecondLayout>
@@ -321,10 +325,31 @@ const EditProducts: NextPage<Props> = ({ product }) => {
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { slug = '' } = query;
 
-  const rusticoData = await rusticoApi
-    .get(`/products/${slug.toString()}`)
-    .catch(() => false);
-  if (!rusticoData) {
+  let product;
+
+  const { data } = await rusticoApi
+    .get<IProduct | boolean>(`/products/${slug.toString()}`)
+    .catch(() => {
+      return { data: false };
+    });
+
+  if (slug === 'new') {
+    product = {
+      // id: '',
+      titulo: '',
+      precio: 0,
+      descripcion: '',
+      slug: '',
+      categoria: '',
+      tags: [],
+      imagen: '',
+      inStock: true
+    };
+  } else {
+    product = data;
+  }
+
+  if (!data && slug !== 'new') {
     return {
       redirect: {
         destination: '/admin/products',
@@ -332,10 +357,9 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       }
     };
   }
-  const { data } = rusticoData as any;
   return {
     props: {
-      product: data
+      product
     }
   };
 };

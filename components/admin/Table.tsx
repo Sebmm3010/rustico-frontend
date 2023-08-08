@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
             className="bg-blue-600 text-white font-bold px-3 rounded-lg my-2"
             onClick={() => router.push(place as string)}
           >
-            + Nuevo Producto
+            + Nuevo
           </button>
         </div>
       </div>
