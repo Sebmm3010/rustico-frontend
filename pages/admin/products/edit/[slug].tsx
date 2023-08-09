@@ -76,17 +76,33 @@ const EditProducts: NextPage<Props> = ({ product }) => {
     const updatedTags = getValues('tags').filter((t) => t !== tag);
     setValue('tags', updatedTags, { shouldValidate: true });
   };
-
   // ? Seleccionar imagenes
-  const onFileSelected = ({ target }: ChangeEvent<HTMLInputElement>) => {
+  const onFileSelected = async ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (!target.files || target.files.length === 0) {
       return;
     }
     try {
       for (const file of target.files) {
-        const formData = new FormData();
-        console.log(file);
+        const formDataFile = new FormData();
+        formDataFile.append('file', file);
+        const { data } = await rusticoApi.post<{ url: string }>(
+          '/upload/products',
+          formDataFile
+        );
+        setValue('imagen', data.url, { shouldValidate: true });
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ? Delete imagenes
+  const onDeleteImage = async () => {
+    try {
+      await rusticoApi.delete(
+        `/upload/products?destroy=${getValues('imagen')}`
+      );
+      setValue('imagen', '', { shouldValidate: true });
     } catch (error) {
       console.log(error);
     }
@@ -327,7 +343,11 @@ const EditProducts: NextPage<Props> = ({ product }) => {
                   width={200}
                   height={300}
                 />
-                <button className="flex justify-center items-center gap-2 bg-[#ff0000] rounded-md p-2">
+                <button
+                  onClick={onDeleteImage}
+                  type="button"
+                  className="flex justify-center items-center gap-2 bg-[#ff0000] rounded-md p-2"
+                >
                   <AiFillCloseCircle /> Eliminar
                 </button>
               </div>
@@ -341,6 +361,7 @@ const EditProducts: NextPage<Props> = ({ product }) => {
                   accept="image/png, image/gif, image/jpeg, image/webp"
                 />
                 <button
+                  type="button"
                   onClick={() => filesRef.current?.click()}
                   className="bg-blue-600 text-white font-bold rounded-full my-2 py-2 flex items-center justify-center gap-2"
                 >
