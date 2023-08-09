@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-import { BiEdit } from 'react-icons/bi';
+import { BiEdit, BiSolidSortAlt } from 'react-icons/bi';
 
 import {
   DropdownMenu,
@@ -36,7 +36,25 @@ export const productsColumns: ColumnDef<IProduct>[] = [
   },
   {
     accessorKey: 'titulo',
-    header: 'Nombre'
+    header: ({ column }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger
+              className="flex gap-1 items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === 'asc')
+              }
+            >
+              Nombre <BiSolidSortAlt />
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-black border border-black">
+              <p>Ordenar</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
   },
   {
     accessorKey: 'descripcion',
@@ -44,7 +62,25 @@ export const productsColumns: ColumnDef<IProduct>[] = [
   },
   {
     accessorKey: 'inStock',
-    header: 'Stock',
+    header: ({ column }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger
+              className="flex gap-1 items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === 'asc')
+              }
+            >
+              Stock <BiSolidSortAlt />
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-black border border-black">
+              <p>Ordenar</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
     cell: ({ row }) => {
       const prod = row.original;
       return <div>{prod.inStock ? 'Disponible' : 'Agotado'}</div>;
@@ -52,11 +88,47 @@ export const productsColumns: ColumnDef<IProduct>[] = [
   },
   {
     accessorKey: 'categoria',
-    header: 'Categoria'
+    header: ({ column }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger
+              className="flex gap-1 items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === 'asc')
+              }
+            >
+              Categoria <BiSolidSortAlt />
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-black border border-black">
+              <p>Ordenar</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
   },
   {
     accessorKey: 'precio',
-    header: 'Precio',
+    header: ({ column }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger
+              className="flex gap-1 items-center"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === 'asc')
+              }
+            >
+              Precio <BiSolidSortAlt />
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-black border border-black">
+              <p>Ordenar</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
     cell: ({ row }) => {
       const prod = row.original;
       const precio = currency.format(prod.precio);
