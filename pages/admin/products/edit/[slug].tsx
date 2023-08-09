@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { BiEdit, BiSave } from 'react-icons/bi';
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { AiFillCloseCircle, AiOutlineUpload } from 'react-icons/ai';
 import { SecondLayout } from '@/components/layouts';
 import rusticoApi from '@/apis/rusitcoApi';
 import { IProduct } from '@/interfaces';
@@ -30,6 +30,7 @@ const EditProducts: NextPage<Props> = ({ product }) => {
   const router = useRouter();
   const [newTagValue, setNewTagValue] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const filesRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -74,6 +75,21 @@ const EditProducts: NextPage<Props> = ({ product }) => {
   const onDeleteTag = (tag: string) => {
     const updatedTags = getValues('tags').filter((t) => t !== tag);
     setValue('tags', updatedTags, { shouldValidate: true });
+  };
+
+  // ? Seleccionar imagenes
+  const onFileSelected = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    if (!target.files || target.files.length === 0) {
+      return;
+    }
+    try {
+      for (const file of target.files) {
+        const formData = new FormData();
+        console.log(file);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // ? Submit
@@ -301,21 +317,39 @@ const EditProducts: NextPage<Props> = ({ product }) => {
                 </span>
               ))}
           </div>
-          {/* <div className="col-start-2 row-start-4 flex flex-col">
-            <input type="file" className="mb-2" />
-            <div className="flex flex-col gap-2 items-start justify-start">
-              <Image
-                className="border-black rounded-md border-2"
-                src={getValues('imagen')}
-                alt={getValues('titulo')}
-                width={200}
-                height={300}
-              />
-              <button className="flex justify-center items-center gap-2 bg-[#ff0000] rounded-md p-2">
-                <AiFillCloseCircle /> Eliminar
-              </button>
-            </div>
-          </div> */}
+          <div className="col-start-2 row-start-4 flex flex-col">
+            {getValues('imagen').length > 0 ? (
+              <div className="flex flex-col gap-2 items-start justify-start">
+                <Image
+                  className="border-black rounded-md border-2"
+                  src={getValues('imagen')}
+                  alt={getValues('titulo')}
+                  width={200}
+                  height={300}
+                />
+                <button className="flex justify-center items-center gap-2 bg-[#ff0000] rounded-md p-2">
+                  <AiFillCloseCircle /> Eliminar
+                </button>
+              </div>
+            ) : (
+              <>
+                <input
+                  ref={filesRef}
+                  onChange={onFileSelected}
+                  type="file"
+                  className="hidden"
+                  accept="image/png, image/gif, image/jpeg, image/webp"
+                />
+                <button
+                  onClick={() => filesRef.current?.click()}
+                  className="bg-blue-600 text-white font-bold rounded-full my-2 py-2 flex items-center justify-center gap-2"
+                >
+                  <AiOutlineUpload className="text-xl font-bold" />
+                  Cargar Imagen
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </form>
     </SecondLayout>
