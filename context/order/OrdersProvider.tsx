@@ -62,12 +62,12 @@ export const OrdersProvider: FC<Props> = ({ children }) => {
       );
       dispatch({
         type: '[Orders]- Actualizar order items',
-        payload: newOrderItems
+        payload: newOrderItems as OrderItem[]
       });
     } else {
       dispatch({
         type: '[Orders]- Actualizar order items',
-        payload: [...state.orderItems, orderItem]
+        payload: [...state.orderItems, orderItem] as OrderItem[]
       });
     }
   };
