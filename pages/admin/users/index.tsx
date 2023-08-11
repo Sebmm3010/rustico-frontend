@@ -20,7 +20,10 @@ const AdminUsersPage = () => {
           <DataTable
             data={data}
             columns={usersColumns}
-            place="/admin/users/newuser"
+            createNew={true}
+            filterBy="fullName"
+            filterValue="nombre"
+            url="/admin/users/newuser"
           />
         </div>
       )}

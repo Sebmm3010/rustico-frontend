@@ -1,6 +1,6 @@
 import { DataTable, productsColumns } from '@/components/admin';
 import { SecondLayout } from '@/components/layouts';
-import { useAdminData, useProducts } from '@/hooks';
+import { useProducts } from '@/hooks';
 import { IProduct } from '@/interfaces';
 
 const ProductsAdminPage = () => {
@@ -19,7 +19,10 @@ const ProductsAdminPage = () => {
           <DataTable
             data={products as IProduct[]}
             columns={productsColumns}
-            place="products/edit/new"
+            createNew={true}
+            filterBy="titulo"
+            filterValue="nombre"
+            url="/admin/products/edit/new"
           />
         </div>
       )}

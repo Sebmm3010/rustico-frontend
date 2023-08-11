@@ -30,13 +30,19 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  place?: string;
+  filterValue: string;
+  filterBy: string;
+  createNew: boolean;
+  url?: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  place
+  filterValue,
+  filterBy,
+  createNew,
+  url
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -62,26 +68,22 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4 justify-between">
         <Input
           className="p-2 border-black max-w-[35%]"
-          placeholder="Filtrar por nombre"
-          value={
-            place === '/admin/users/newuser'
-              ? (table.getColumn('fullName')?.getFilterValue() as string) ?? ''
-              : (table.getColumn('titulo')?.getFilterValue() as string) ?? ''
-          }
+          placeholder={`Filtrar por ${filterValue}`}
+          value={table.getColumn(filterBy)?.getFilterValue() as string}
           onChange={({ target }) =>
-            place === '/admin/users/newuser'
-              ? table.getColumn('fullName')?.setFilterValue(target.value)
-              : table.getColumn('titulo')?.setFilterValue(target.value)
+            table.getColumn(filterBy)?.setFilterValue(target.value)
           }
         />
-        <div className="flex justify-end">
-          <button
-            className="bg-blue-600 text-white font-bold px-3 rounded-lg my-2"
-            onClick={() => router.push(place as string)}
-          >
-            + Nuevo
-          </button>
-        </div>
+        {createNew && url && (
+          <div className="flex justify-end">
+            <button
+              className="bg-blue-600 text-white font-bold px-3 rounded-md my-2"
+              onClick={() => router.push(url)}
+            >
+              + Crear
+            </button>
+          </div>
+        )}
       </div>
       <div className="rounded-md bg-gray-200 p-3 border border-black text-xl">
         <Table>
