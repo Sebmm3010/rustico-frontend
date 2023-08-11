@@ -4,7 +4,9 @@ import { useProducts } from '@/hooks';
 import { IProduct } from '@/interfaces';
 
 const ProductsAdminPage = () => {
-  const { products, isLoading } = useProducts('products');
+  const { products, isLoading } = useProducts('products', {
+    refreshInterval: 100
+  });
   return (
     <SecondLayout
       title="Administracion - Productos"

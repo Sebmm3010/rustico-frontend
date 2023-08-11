@@ -1,8 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 
-import { BiEdit, BiSolidSortAlt } from 'react-icons/bi';
+import { getSession } from 'next-auth/react';
+import { BiEdit, BiSolidSortAlt, BiTrash } from 'react-icons/bi';
 
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -18,6 +20,20 @@ import {
 import { IProduct } from '@/interfaces';
 import { currency } from '@/utils';
 import Link from 'next/link';
+import rusticoApi from '@/apis/rusitcoApi';
+
+const onDeleteProduct = async (id: string) => {
+  const session = await getSession();
+  try {
+    await rusticoApi.delete(`/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${session?.user.token}`
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const productsColumns: ColumnDef<IProduct>[] = [
   {
@@ -133,6 +149,20 @@ export const productsColumns: ColumnDef<IProduct>[] = [
       const prod = row.original;
       const precio = currency.format(prod.precio);
       return <div>{precio}</div>;
+    }
+  },
+  {
+    id: 'delete',
+    cell: ({ row }) => {
+      const prod = row.original;
+      return (
+        <Button
+          onClick={() => onDeleteProduct(prod.id as string)}
+          className="text-xl hover:underline text-red-600"
+        >
+          <BiTrash />
+        </Button>
+      );
     }
   }
 ];
