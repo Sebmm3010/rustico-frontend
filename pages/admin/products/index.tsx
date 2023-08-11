@@ -1,5 +1,6 @@
 import { DataTable, productsColumns } from '@/components/admin';
 import { SecondLayout } from '@/components/layouts';
+import { AllPageLoading } from '@/components/ui';
 import { useProducts } from '@/hooks';
 import { IProduct } from '@/interfaces';
 
@@ -15,7 +16,8 @@ const ProductsAdminPage = () => {
       navTitle="Administracion"
     >
       {isLoading ? (
-        <h1 className="m-auto text-white">Cargando...</h1>
+        // <h1 className="m-auto text-white">Cargando...</h1>
+        <AllPageLoading />
       ) : (
         <div className="container mx-auto py-10 rounded-lg">
           <DataTable

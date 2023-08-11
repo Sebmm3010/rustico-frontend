@@ -4,7 +4,9 @@ import { SecondLayout } from '@/components/layouts';
 import { CardSkeleton } from '@/components/ui';
 
 const CocinaPage = () => {
-  const { orders, isError, isLoading } = useOrders({ refreshInterval: 100 });
+  const { orders, isError, isLoading } = useOrders('pending', {
+    refreshInterval: 100
+  });
   return (
     <SecondLayout
       title="Mr. Rustico - Cocina"
