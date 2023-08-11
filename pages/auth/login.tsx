@@ -165,7 +165,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   const session = await getSession({ req });
   const { p = '/' } = query;
   if (session) {
-    console.log(session);
     return {
       redirect: {
         destination: p.toString(),

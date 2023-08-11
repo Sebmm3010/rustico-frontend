@@ -129,11 +129,10 @@ const EditProducts: NextPage<Props> = ({ product }) => {
       categoria,
       inStock: JSON.parse(inStock as string)
     };
-    // if (formData.imagen.length === 0) return;
+    if (formData.imagen.length === 0) return;
 
     setIsSaving(true);
 
-    console.log({ formData });
     try {
       const { data } = await rusitcoApi({
         url: `/products/${product.id || ''}`,
@@ -143,7 +142,6 @@ const EditProducts: NextPage<Props> = ({ product }) => {
           Authorization: `Bearer ${user?.token}`
         }
       });
-      console.log({ data });
       if (!product.id) {
         // Todo: Recargar navegador
         router.replace(`/admin/products/edit/${formData.slug}`);

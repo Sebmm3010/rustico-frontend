@@ -85,26 +85,28 @@ export const UserMenu: FC = () => {
               </Link>
             </li>
           </ul>
-          <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
-            <li>
-              <Link
-                href="/admin/users"
-                className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
-              >
-                <AiOutlineUsergroupAdd className="font-bold text-xl" />
-                <span className="ml-4">Panel Usuarios</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/products"
-                className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
-              >
-                <IoFastFoodOutline className="font-bold text-xl" />
-                <span className="ml-4">Panel Productos</span>
-              </Link>
-            </li>
-          </ul>
+          {user?.roles.includes('admin') && (
+            <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
+              <li>
+                <Link
+                  href="/admin/users"
+                  className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
+                >
+                  <AiOutlineUsergroupAdd className="font-bold text-xl" />
+                  <span className="ml-4">Panel Usuarios</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/admin/products"
+                  className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
+                >
+                  <IoFastFoodOutline className="font-bold text-xl" />
+                  <span className="ml-4">Panel Productos</span>
+                </Link>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </>
