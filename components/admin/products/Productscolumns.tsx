@@ -5,12 +5,6 @@ import { BiEdit, BiSolidSortAlt, BiTrash } from 'react-icons/bi';
 
 import {
   Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
   Tooltip,
   TooltipContent,
   TooltipProvider,
