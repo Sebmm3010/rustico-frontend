@@ -9,8 +9,9 @@ import {
 } from 'react-icons/ai';
 import { GiKnifeFork } from 'react-icons/gi';
 import { ImExit } from 'react-icons/im';
-import { useAppContext, useClickOut } from '@/hooks';
 import { IoFastFoodOutline } from 'react-icons/io5';
+import { MdReceiptLong } from 'react-icons/md';
+import { useAppContext, useClickOut } from '@/hooks';
 
 export const UserMenu: FC = () => {
   const [subMenu, setSubMenu] = useState(false);
@@ -103,6 +104,15 @@ export const UserMenu: FC = () => {
                 >
                   <IoFastFoodOutline className="font-bold text-xl" />
                   <span className="ml-4">Panel Productos</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/admin/orders"
+                  className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
+                >
+                  <MdReceiptLong className="font-bold text-xl" />
+                  <span className="ml-4">Panel de Ordenes</span>
                 </Link>
               </li>
             </ul>
