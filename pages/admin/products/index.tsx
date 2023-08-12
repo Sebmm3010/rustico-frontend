@@ -16,7 +16,6 @@ const ProductsAdminPage = () => {
       navTitle="Administracion"
     >
       {isLoading ? (
-        // <h1 className="m-auto text-white">Cargando...</h1>
         <AllPageLoading />
       ) : (
         <div className="container mx-auto py-10 rounded-lg">

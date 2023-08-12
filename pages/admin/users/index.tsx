@@ -1,5 +1,6 @@
 import { DataTable, usersColumns } from '@/components/admin';
 import { SecondLayout } from '@/components/layouts';
+import { AllPageLoading } from '@/components/ui';
 import { useAdminData } from '@/hooks';
 import { useRouter } from 'next/router';
 
@@ -14,7 +15,7 @@ const AdminUsersPage = () => {
       navTitle="Administracion"
     >
       {isLoading ? (
-        <h1 className="m-auto text-white">Cargando...</h1>
+        <AllPageLoading />
       ) : (
         <div className="container mx-auto py-10 rounded-lg">
           <DataTable
