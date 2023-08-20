@@ -90,6 +90,7 @@ export const UserMenu: FC = () => {
             <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
               <li>
                 <Link
+                  onClick={() => setShowUserMenu(false)}
                   href="/admin/users"
                   className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
                 >
@@ -99,6 +100,7 @@ export const UserMenu: FC = () => {
               </li>
               <li>
                 <Link
+                  onClick={() => setShowUserMenu(false)}
                   href="/admin/products"
                   className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
                 >
@@ -108,6 +110,7 @@ export const UserMenu: FC = () => {
               </li>
               <li>
                 <Link
+                  onClick={() => setShowUserMenu(false)}
                   href="/admin/orders"
                   className="flex items-center p-2 transition duration-75 rounded-lg  hover:bg-gray-700 text-white group"
                 >
