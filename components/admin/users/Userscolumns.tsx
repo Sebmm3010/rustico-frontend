@@ -35,10 +35,6 @@ const actualizarUsuario = async (id: string, state: boolean) => {
 };
 export const usersColumns: ColumnDef<IAdminUsers>[] = [
   {
-    accessorKey: 'id',
-    header: 'Id'
-  },
-  {
     accessorKey: 'fullName',
     header: ({ column }) => {
       return (
