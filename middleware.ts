@@ -21,13 +21,6 @@ export async function middleware(req: NextRequest) {
     }
     return NextResponse.redirect(url);
   }
-  // if (
-  //   requestedPage.includes('/admin') &&
-  //   !session.user.roles.includes('admin')
-  // ) {
-  //   return NextResponse.redirect(new URL('/', req.url));
-  // }
-  // return NextResponse.next();
 }
 export const config = {
   matcher: [
